@@ -1,0 +1,11 @@
+matplotlib
+numpy
+scipy
+geopy
+pandas
+opencv-python
+shapely
+geopy
+EMD-signal
+datetime
+pickle

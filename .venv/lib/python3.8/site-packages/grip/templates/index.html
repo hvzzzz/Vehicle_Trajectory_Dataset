@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}{% if title %}{{ title }}{% else %}{{ filename or '' }} - Grip{% endif %}{% endblock %}
+
+{%- block styles -%}
+  {%- for style_url in style_urls %}
+  <link rel="stylesheet" href="{{ style_url }}" />
+  {%- endfor %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='octicons/octicons.css') }}" />
+  {%- if styles %}
+  <style>
+    {%- for style in styles %}
+    {{ style|safe }}
+    {%- endfor %}
+  </style>
+  {%- endif %}
+  <style>
+    /* Page tweaks */
+    .preview-page {
+      margin-top: 64px;
+      margin-bottom: 21px;
+    }
+    /* User-content tweaks */
+    .timeline-comment-wrapper > .timeline-comment:after,
+    .timeline-comment-wrapper > .timeline-comment:before {
+      content: none;
+    }
+    /* User-content overrides */
+    .discussion-timeline.wide {
+      width: 920px;
+    }
+  </style>
+{%- endblock -%}
+
+{%- block scripts -%}
+  <script>
+    function showCanonicalImages() {
+      var images = document.getElementsByTagName('img');
+      if (!images) {
+        return;
+      }
+      for (var index = 0; index < images.length; index++) {
+        var image = images[index];
+        if (image.getAttribute('data-canonical-src') && image.src !== image.getAttribute('data-canonical-src')) {
+          image.src = image.getAttribute('data-canonical-src');
+        }
+      }
+    }
+
+    function scrollToHash() {
+      if (location.hash && !document.querySelector(':target')) {
+        var element = document.getElementById('user-content-' + location.hash.slice(1));
+        if (element) {
+           element.scrollIntoView();
+        }
+      }
+    }
+
+    function autorefreshContent(eventSourceUrl) {
+      var initialTitle = document.title;
+      var contentElement = document.getElementById('grip-content');
+      var source = new EventSource(eventSourceUrl);
+      var isRendering = false;
+
+      source.onmessage = function(ev) {
+        var msg = JSON.parse(ev.data);
+        if (msg.updating) {
+          isRendering = true;
+          document.title = '(Rendering) ' + document.title;
+        } else {
+          isRendering = false;
+          document.title = initialTitle;
+          contentElement.innerHTML = msg.content;
+          showCanonicalImages();
+        }
+      }
+
+      source.onerror = function(e) {
+        if (e.readyState === EventSource.CLOSED && isRendering) {
+          isRendering = false;
+          document.title = initialTitle;
+        }
+      }
+    }
+
+    window.onhashchange = function() {
+      scrollToHash();
+    }
+
+    window.onload = function() {
+      scrollToHash();
+    }
+
+    showCanonicalImages();
+
+    var autorefreshUrl = document.getElementById('preview-page').getAttribute('data-autorefresh-url');
+    if (autorefreshUrl) {
+      autorefreshContent(autorefreshUrl);
+    }
+  </script>
+{%- endblock -%}
+
+{%- block page -%}
+  <div id="preview-page" class="preview-page" data-autorefresh-url="{{ autorefresh_url if autorefresh_url }}">
+    <main id="js-repo-pjax-container">
+      <div class="clearfix new-discussion-timeline container-xl px-3 px-md-4 px-lg-5">
+        <div class="repository-content">
+          <div class="clearfix">
+            <div class="Layout Layout--flowRow-until-md Layout--sidebarPosition-end Layout--sidebarPosition-flowRow-end">
+              <div class="Layout-main">
+
+                {% if not user_content %}
+
+                  <div id="readme" class="Box md Box--responsive">
+                    {% if title or filename %}
+                      <div class="Box-header d-flex border-bottom-0 flex-items-center flex-justify-between color-bg-default rounded-top-2">
+                        <div class="d-flex flex-items-center">
+                          <h2 class="Box-title">
+                            {{ title or filename }}
+                          </h2>
+                        </div>
+                      </div>
+                    {% endif %}
+                    <div class="Box-body px-5 pb-5">
+                      <article id="grip-content" class="markdown-body entry-content container-lg">
+                        {{ content|safe }}
+                      </article>
+                    </div>
+                  </div>
+
+                {% else %}
+
+                  <div class="pull-discussion-timeline">
+                    <div class="ml-0 pl-0 ml-md-6 pl-md-3">
+                      <div class="TimelineItem pt-0">
+                        <div class="timeline-comment-group TimelineItem-body my-0">
+                          <div class="ml-n3 timeline-comment unminimized-comment comment previewable-edit editable-comment timeline-comment--caret reorderable-task-lists">
+                            {% if title %}
+                              <div class="timeline-comment-header clearfix d-block d-sm-flex">
+                                <h3 class="timeline-comment-header-text f5 text-normal">
+                                  <strong class="css-truncate expandable"><span class="author text-inherit css-truncate-target">{{ title }}</span></strong>
+                                </h3>
+                              </div>
+                            {% endif %}
+                            <div class="edit-comment-hide">
+                              <table class="d-block">
+                                <tbody class="d-block">
+                                  <tr class="d-block">
+                                    <td class="d-block comment-body markdown-body" id="grip-content">
+                                      {{ content|safe }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+{%- endblock -%}

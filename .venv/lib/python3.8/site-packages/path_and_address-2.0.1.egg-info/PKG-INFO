@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: path-and-address
+Version: 2.0.1
+Summary: Functions for server command-line arguments used by humans.
+Home-page: http://github.com/joeyespo/path-and-address
+Author: Joe Esposito
+Author-email: joe@joeyespo.com
+License: MIT
+Description: UNKNOWN
+Platform: any

@@ -1,5 +1,8 @@
 import numpy as np
 from shapely.geometry import Point
+from geopy.distance import geodesic
+from geopy.distance import great_circle
+import datetime as dt
 
 # DeepSort Trajectories Reading and Processing
 def ltwh2midpoint(space):
@@ -77,14 +80,12 @@ def distance_2p(p1,p2):
 
 def initial_point(ids_list,o_t_i_a,vect_l,direction_x,direction_y): # determinacion de la distancia del punto inicial del vector a la proyeccion del punto inicial de la trayectoria en el vector de direccion. 
     initial_p=[direction_x[0,0],direction_y[0,0]]
-    print(initial_p)
     initial_x={}
     for i in ids_list:
       l=distance_2p(o_t_i_a['id_'+str(i)][0,:2],initial_p)
       v=o_t_i_a['id_'+str(i)][0,:2]-initial_p
       ang=cos_ang(vect_l,v)
       initial_x['id_'+str(i)]=[l*ang,o_t_i_a['id_'+str(i)][0,2]]
-      #print(i,v,ang)
     return initial_x
 
 def xy2vect(ids_list,xy_dict):#determinacion del vector de vectores
@@ -160,16 +161,61 @@ def gen_xy_in_line(first_p,last_p,space_time):#conversion del vector de l sumado
     return xy
 
 def pixel2real_world(homograph,xy,first_p):
-  xy_prim=xy.copy()
-  inv_homograph=np.linalg.inv(homograph)
-  first=first_p.copy()
-  first.append(1)
-  real_first=np.matmul(inv_homograph,first)
-  real_first=real_first/real_first[2]
-  real_first=real_first.T
-  for i in xy.keys(): 
-    gps=np.matmul(inv_homograph,xy[i][:,:3].T)
-    gps=gps/gps[2]
-    gps=gps.T
-    xy_prim[i][:,:3]=gps
-  return real_first,xy_prim
+    xy_prim=xy.copy()
+    inv_homograph=np.linalg.inv(homograph)
+    first=first_p.copy()
+    first.append(1)
+    real_first=np.matmul(inv_homograph,first)
+    real_first=real_first/real_first[2]
+    real_first=real_first.T
+    for i in xy.keys(): 
+      gps=np.matmul(inv_homograph,xy[i][:,:3].T)
+      gps=gps/gps[2]
+      gps=gps.T
+      xy_prim[i][:,:3]=gps
+    return real_first,xy_prim
+
+def L_in_realworld(vect_first,xy_prim,method='geodesic'):
+    L=xy_prim.copy()
+    if(method=='great_circle'):
+      for i in xy_prim.keys():
+        L[i]=np.zeros([np.shape(xy_prim[i])[0],2])
+        L[i][:,1]=xy_prim[i][:,3]
+        for j in range(len(xy_prim[i])):
+          L[i][j,0]=great_circle(vect_first[:2],xy_prim[i][:,:3][j,:2]).km*1e3
+    if(method=='geodesic'):
+      for i in xy_prim.keys():
+        L[i]=np.zeros([np.shape(xy_prim[i])[0],2])
+        L[i][:,1]=xy_prim[i][:,3]
+        for j in range(len(xy_prim[i])):
+          L[i][j,0]=geodesic(vect_first[:2],xy_prim[i][:,:3][j,:2]).km*1e3 
+    return L
+
+def frm2time(L):
+    frm=L.copy()
+    time={}
+    for i in L.keys():
+      hour,minute,second,useg,dts= [],[],[],[],[]
+      hour=frm[i][:,-1]//216000
+      frm[i][:,-1]=frm[i][:,-1]-hour*216000
+      minute=frm[i][:,-1]//3600
+      frm[i][:,-1]=frm[i][:,-1]-minute*3600
+      second=frm[i][:,-1]//60
+      frm[i][:,-1]=frm[i][:,-1]-second*60
+      useg=frm[i][:,-1]*1e6/60
+
+      for j in range(len(hour)): 
+         dts.append(dt.timedelta(hours=int(hour[j]),minutes=int(minute[j]),seconds=int(second[j]),microseconds=int(np.floor(useg[j])))+dt.datetime(2022,2,5,5,58,48))
+      time[i]=dts
+    return time
+
+def speeds(L_l):#determinacion del vector de velocidades y aceleraciones
+  speed_ac_l={}
+  h=1/60
+  for i in L_l.keys():
+    if(len(L_l[i])>30):
+      speed_ac_l[i]=np.zeros([np.shape(L_l[i])[0]-2,3])
+      speed_ac_l[i][:,0]=((L_l[i][:,0]-np.roll(L_l[i][:,0],1))/h)[2:]# speed
+      speed_ac_l[i][:,1]=((L_l[i][:,0]-2*np.roll(L_l[i][:,0],1)+np.roll(L_l[i][:,0],2))/(h**2))[2:]#acceleration
+      speed_ac_l[i][:,2]=(L_l[i][:,1])[2:]
+  return speed_ac_l
