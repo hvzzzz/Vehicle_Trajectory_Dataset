@@ -11,5 +11,3 @@ In order to clean the noises in the trajectories we filtered the first, second a
 ![](images/filtered_EMD.png)
 We also tried another approach that applies a Gaussian Kernel directly to the trajectories
 ![](images/g_kernel_pos.png)
-
-

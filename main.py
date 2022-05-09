@@ -110,6 +110,7 @@ def trayectory_processing():
         L_l3 = pickle.load(f);time_l3=frm2time(L_l3)
     with open('files/L_l3.pkl', 'rb') as f:
         L_l3 = pickle.load(f) 
+
     # Space Time Diagram Plots
     #fig1=plt.figure()
     #ax=plt.gca()
@@ -276,6 +277,7 @@ def trayectory_processing():
     y_sm=L_l3['id_10752'][:,0]
     
     sigma = 8
+    sigma=8
     x_g1d = ndimage.gaussian_filter1d(x_sm, sigma)
     y_g1d = ndimage.gaussian_filter1d(y_sm, sigma)
     fig, ax = plt.subplots(figsize=(10, 10))
