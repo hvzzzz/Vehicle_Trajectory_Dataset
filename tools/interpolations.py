@@ -22,7 +22,7 @@ x_smooth = np.linspace(x_sm.min(), x_sm.max(), 200)
 # spline - always goes through all the data points x/y
 #y_spline = interpolate.spline(x, y, x_smooth)
 y_spline = f(x_smooth,x_sm,y_sm) 
-spl = interpolate.UnivariateSpline(x, y)
+spl = interpolate.UnivariateSpline(x, y,k=4)
 
 sigma = 2
 x_g1d = ndimage.gaussian_filter1d(x_sm, sigma)
@@ -33,11 +33,10 @@ ax.legend(loc='center left', bbox_to_anchor=(1.05, 0.5), frameon=False)
 
 plt.plot(x_sm, y_sm, 'green', linewidth=1,label='Original Data')
 #plt.plot(x_smooth, y_spline, 'red', linewidth=1,label='Cubic Spline')
-#plt.plot(x_sm, spl(x_sm), linewidth=1,label='Univariante Spline')
+plt.plot(x_sm, spl(x_sm), linewidth=1,label='Univariante Spline')
 plt.plot(x_sm,y_g1d, 'magenta', linewidth=1,label='Gaussian Kernel Smoothing')
 plt.legend()
 
 #print(len(y_sm),len(y_spline),len(y_g1d))
 #print(y_spline)
-print(np.arange(0,100,10))
 plt.show()

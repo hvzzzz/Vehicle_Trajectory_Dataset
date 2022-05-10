@@ -9,6 +9,7 @@ from shapely.geometry.polygon import Polygon
 from PyEMD import EMD
 from scipy import signal
 from scipy import ndimage
+from scipy import interpolate
 plt.rcParams['figure.dpi']=200
 #Homography Matrix
 homograph=h_matrix('tools/Cal_PnP/data/calibration.txt')
@@ -275,20 +276,48 @@ def trayectory_processing():
     #Gaussian Kernel on Trayectory data
     x_sm=L_l3['id_10752'][:,-1]
     y_sm=L_l3['id_10752'][:,0]
-    
+
     sigma = 8
-    sigma=8
     x_g1d = ndimage.gaussian_filter1d(x_sm, sigma)
     y_g1d = ndimage.gaussian_filter1d(y_sm, sigma)
     fig, ax = plt.subplots(figsize=(10, 10))
-    
-    plt.plot(x_sm, y_sm, 'green', linewidth=1,label='Original Data')
-    plt.plot(x_sm,y_g1d, 'magenta', linewidth=1,label='Gaussian Kernel Smoothing')
-    plt.grid(True)
-    plt.title('Gaussian Kernel Applied to Trayectory')
-    plt.xlabel('Frame')
-    plt.ylabel('Distance$[m]$')
-    plt.savefig('images/g_kernel_pos.png')
+    spl = interpolate.UnivariateSpline(x_sm, y_sm,k=5) 
+    #plt.plot(x_sm, y_sm,'.',label='Original Data')
+    #plt.plot(x_sm,y_g1d, 'magenta', linewidth=1,label='Gaussian Kernel Smoothing')
+    #plt.plot(x_sm, spl(x_sm),'^',markersize=2,label='Univariante Spline')
+    #plt.grid(True)
+    #plt.title('Gaussian Kernel Applied to Trayectory')
+    #plt.xlabel('Frame')
+    #plt.ylabel('Distance$[m]$')
+    #plt.savefig('images/g_kernel_pos.png')
+    #plt.legend()
+    #plt.show()
+    #Derivatives of filtered data
+    dd_y=spds_acce(x_sm,spl(x_sm))  
+    #i_p=np.zeros([1,2])
+    i_p=[];i_temp=0
+    for i,elem in enumerate(dd_y[:,1]):
+        if(i>0 and i<len(dd_y[:,1])):
+            if((dd_y[:,1][i-1]<0 and dd_y[:,1][i+1]>0) or (dd_y[:,1][i-1]<0 and dd_y[:,1][i+1]>0)):
+                i_p.append([dd_y[:,2][i],elem])
+                if(np.abs(i-i_temp)==1):
+                    i_p.pop()
+                i_temp=i
+    i_px=np.where(dd_y[:,2]==i_p[0][0])
+    #plt.subplot(1,2,1);plt.title('First Derivative')
+    #plt.plot(dd_y[:,2],dd_y[:,0])
+    #plt.plot(i_p[0][0],dd_y[:,0][i_px],'o')
+    #plt.grid(True)
+    #plt.subplot(1,2,2);plt.title('Second Derivative')
+    #for i in i_p:
+    #    plt.plot(i[0],i[1],'o') 
+    #plt.plot(dd_y[:,2],dd_y[:,1],'o',markersize=2)
+    #plt.grid(True)
+    #plt.savefig('images/smoothed_data_derivatives.png') 
+    #plt.show()
+    plt.plot(x_sm, spl(x_sm),linewidth=1,label='Univariante Spline')
+    plt.plot(i_p[0][0],spl(x_sm)[i_px],'o');plt.grid(True)
+    plt.savefig('images/inflection_point_trajectory.png') 
     plt.show()
 if __name__ == '__main__':
     #space_time_diagram() 

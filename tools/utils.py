@@ -209,13 +209,20 @@ def frm2time(L):
       time[i]=dts
     return time
 
-def speeds(L_l):#determinacion del vector de velocidades y aceleraciones
-  speed_ac_l={}
-  h=1/60
-  for i in L_l.keys():
-    if(len(L_l[i])>30):
-      speed_ac_l[i]=np.zeros([np.shape(L_l[i])[0]-2,3])
-      speed_ac_l[i][:,0]=((L_l[i][:,0]-np.roll(L_l[i][:,0],1))/h)[2:]# speed
-      speed_ac_l[i][:,1]=((L_l[i][:,0]-2*np.roll(L_l[i][:,0],1)+np.roll(L_l[i][:,0],2))/(h**2))[2:]#acceleration
-      speed_ac_l[i][:,2]=(L_l[i][:,1])[2:]
-  return speed_ac_l
+def speeds(L_l):#determinacion del vector de velocidades y aceleraciones para un diccionario
+    speed_ac_l={}
+    h=1/60
+    for i in L_l.keys():
+      if(len(L_l[i])>30):
+        speed_ac_l[i]=np.zeros([np.shape(L_l[i])[0]-2,3])
+        speed_ac_l[i][:,0]=((L_l[i][:,0]-np.roll(L_l[i][:,0],1))/h)[2:]# speed
+        speed_ac_l[i][:,1]=((L_l[i][:,0]-2*np.roll(L_l[i][:,0],1)+np.roll(L_l[i][:,0],2))/(h**2))[2:]#acceleration
+        speed_ac_l[i][:,2]=(L_l[i][:,1])[2:]
+    return speed_ac_l
+def spds_acce(x,y):#determinacion del vector de velocidades y aceleraciones para un vector
+    h=1/60
+    s_a=np.zeros([len(y)-2,3]) 
+    s_a[:,0]=((y-np.roll(y,1))/h)[2:]
+    s_a[:,1]=((y-2*np.roll(y,1)+np.roll(y,2))/(h**2))[2:]
+    s_a[:,2]=x[:-2]
+    return s_a
