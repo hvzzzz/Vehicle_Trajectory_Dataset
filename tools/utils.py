@@ -3,6 +3,7 @@ from shapely.geometry import Point
 from geopy.distance import geodesic
 from geopy.distance import great_circle
 import datetime as dt
+from scipy import interpolate
 
 # DeepSort Trajectories Reading and Processing
 def ltwh2midpoint(space):
@@ -226,3 +227,6 @@ def spds_acce(x,y):#determinacion del vector de velocidades y aceleraciones para
     s_a[:,1]=((y-2*np.roll(y,1)+np.roll(y,2))/(h**2))[2:]
     s_a[:,2]=x[:-2]
     return s_a
+def splines(x,x_points,y_points):
+    tck = interpolate.splrep(x_points, y_points)
+    return interpolate.splev(x, tck)

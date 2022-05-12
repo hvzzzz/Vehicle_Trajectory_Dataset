@@ -315,10 +315,42 @@ def trayectory_processing():
     #plt.grid(True)
     #plt.savefig('images/smoothed_data_derivatives.png') 
     #plt.show()
-    plt.plot(x_sm, spl(x_sm),linewidth=1,label='Univariante Spline')
-    plt.plot(i_p[0][0],spl(x_sm)[i_px],'o');plt.grid(True)
-    plt.savefig('images/inflection_point_trajectory.png') 
+    #plt.plot(x_sm, spl(x_sm),linewidth=1,label='Univariante Spline')
+    #plt.plot(i_p[0][0],spl(x_sm)[i_px],'o');plt.grid(True)
+    #plt.savefig('images/inflection_point_trajectory.png') 
+    #plt.show()
+    temp_xm=x_sm[2:][dd_y[:,0]>0];temp_ym=spl(x_sm)[2:][dd_y[:,0]>0]
+    boo=dd_y[:,0]>0
+    indices = np.nonzero(boo[1:] != boo[:-1])[0] + 1
+    b = np.split(temp_ym, indices)
+    b = b[0::2] if boo[0] else b[1::2]
+    for i in range(len(b)):
+        if(i>0):
+            if(b[i][-1]<=b[i-1][-1]):
+                b[i]=b[i][b[i]<=b[i-1][-1]]
+    b = np.concatenate(b)
+    index_xb=np.where(np.in1d(temp_ym,b))[0]
+    x_b=np.zeros(len(temp_xm),dtype=bool)
+    x_b[index_xb]=True
+    x_b=temp_xm[x_b]
+    y_spline =splines(x_sm,x_b,b) 
+    #plt.subplot(1,3,1);plt.title('First Derivative',fontsize=7)
+    #plt.plot(dd_y[:,2][dd_y[:,0]>0],dd_y[:,0][dd_y[:,0]>0],'.')
+    #plt.grid(True);plt.subplot(1,3,2);plt.title('Trajectory without fallbacks',fontsize=7)
+    #plt.plot(x_b,b,'.')
+    #plt.grid(True)
+    #plt.subplot(1,3,3);plt.title('Trajectory with fallbacks replaced by cubic spline',fontsize=7)
+    #plt.plot(x_sm,y_spline,'.');plt.grid(True)
+    #plt.savefig('images/trajectory_with_no_fallbacks.png',dpi=200)  
+    #plt.show()
+    plt.plot(x_b,b,'.')
+    plt.grid(True);plt.title('Trajectory without fallbacks',fontsize=7)
     plt.show()
+    #print(len(x_sm[2:][dd_y[:,0]>0]),len(spl(x_sm)[2:][dd_y[:,0]>0]),len(dd_y[:,0]>0))
+    #print(len(x_sm[2:]),len(dd_y[:,0]))
+    #print(type(b),type(temp_ylenen(b),len(temp_ym))
+    #print(len(b),len(x_sm[b==temp_ym]))
+    #print(dd_y[:,0]>0)
 if __name__ == '__main__':
     #space_time_diagram() 
     trayectory_processing()
