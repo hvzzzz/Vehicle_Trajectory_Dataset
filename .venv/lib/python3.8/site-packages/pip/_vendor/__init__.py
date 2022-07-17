@@ -14,16 +14,13 @@ import sys
 # Downstream redistributors which have debundled our dependencies should also
 # patch this value to be true. This will trigger the additional patching
 # to cause things like "six" to be available as pip.
-DEBUNDLED = True
+DEBUNDLED = False
 
 # By default, look in this directory for a bunch of .whl files which we will
 # add to the beginning of sys.path before attempting to import anything. This
 # is done to support downstream re-distributors like Debian and Fedora who
 # wish to create their own Wheels for our dependencies to aid in debundling.
-prefix = getattr(sys, "base_prefix", sys.prefix)
-if prefix.startswith('/usr/lib/pypy'):
-    prefix = '/usr'
-WHEEL_DIR = os.path.abspath(os.path.join(prefix, 'share', 'python-wheels'))
+WHEEL_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 # Define a small helper function to alias our vendored modules to the real ones
@@ -61,10 +58,9 @@ if DEBUNDLED:
     sys.path[:] = glob.glob(os.path.join(WHEEL_DIR, "*.whl")) + sys.path
 
     # Actually alias all of our vendored dependencies.
-    vendored("appdirs")
     vendored("cachecontrol")
+    vendored("certifi")
     vendored("colorama")
-    vendored("contextlib2")
     vendored("distlib")
     vendored("distro")
     vendored("html5lib")
@@ -77,8 +73,8 @@ if DEBUNDLED:
     vendored("packaging.specifiers")
     vendored("pep517")
     vendored("pkg_resources")
+    vendored("platformdirs")
     vendored("progress")
-    vendored("retrying")
     vendored("requests")
     vendored("requests.exceptions")
     vendored("requests.packages")
@@ -93,12 +89,8 @@ if DEBUNDLED:
     vendored("requests.packages.urllib3.fields")
     vendored("requests.packages.urllib3.filepost")
     vendored("requests.packages.urllib3.packages")
-    try:
-        vendored("requests.packages.urllib3.packages.ordered_dict")
-        vendored("requests.packages.urllib3.packages.six")
-    except ImportError:
-        # Debian already unbundles these from requests.
-        pass
+    vendored("requests.packages.urllib3.packages.ordered_dict")
+    vendored("requests.packages.urllib3.packages.six")
     vendored("requests.packages.urllib3.packages.ssl_match_hostname")
     vendored("requests.packages.urllib3.packages.ssl_match_hostname."
              "_implementation")
@@ -113,7 +105,7 @@ if DEBUNDLED:
     vendored("requests.packages.urllib3.util.ssl_")
     vendored("requests.packages.urllib3.util.timeout")
     vendored("requests.packages.urllib3.util.url")
-    vendored("toml")
-    vendored("toml.encoder")
-    vendored("toml.decoder")
+    vendored("resolvelib")
+    vendored("tenacity")
+    vendored("tomli")
     vendored("urllib3")

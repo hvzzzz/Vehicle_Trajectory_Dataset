@@ -33,8 +33,8 @@ ax.legend(loc='center left', bbox_to_anchor=(1.05, 0.5), frameon=False)
 
 plt.plot(x_sm, y_sm, 'green', linewidth=1,label='Original Data')
 plt.plot(x_smooth, y_spline, 'red', linewidth=1,label='Cubic Spline')
-#plt.plot(x_sm, spl(x_sm), linewidth=1,label='Univariante Spline')
-#plt.plot(x_sm,y_g1d, 'magenta', linewidth=1,label='Gaussian Kernel Smoothing')
+plt.plot(x_sm, spl(x_sm), linewidth=1,label='Univariante Spline')
+plt.plot(x_sm,y_g1d, 'magenta', linewidth=1,label='Gaussian Kernel Smoothing')
 plt.legend()
 
 #print(len(y_sm),len(y_spline),len(y_g1d))

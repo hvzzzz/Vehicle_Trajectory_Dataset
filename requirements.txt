@@ -8,4 +8,4 @@ shapely
 geopy
 EMD-signal
 datetime
-pickle
+filterpy
