@@ -3,7 +3,14 @@
 #+DATE: 2022
 #+options: toc:nil
 * Experiment Log
+** Extracting Trajectories from Video
 
+We started selecting a region of interest(ROI) in which we will process and extract the trajectories.
+#+ATTR_ORG: :width 400
+#+caption: Trajectories in ROI
+#+label: fig:traj_in_roi
+#+attr_latex: :width 12cm :options angle=0
+[[./images/trajectories_in_ROI.png]]
 
 
 

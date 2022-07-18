@@ -1,5 +1,6 @@
 from tools.homograph_matrix_read import h_matrix
 from tools.utils import * 
+import cv2
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,11 +14,12 @@ from scipy import interpolate
 plt.rcParams['figure.dpi']=200
 #Homography Matrix
 homograph=h_matrix('tools/Cal_PnP/data/calibration.txt')
-p_1=[713.0731707317073,461.92682926829264]
-p_2=[1155.7560975609756,446.07317073170725]
-p_3=[995.9999999999999,93.6341463414634]          
-p_4=[943.560975609756,99.73170731707316]  
-p_5=[841.1219512195121,459.4878048780488]
+p_1=[1570.245283018868,339.9433962264151]
+p_2=[760.8113207547169,358.811320754717]
+p_3=[377.79245283018867,1073.9056603773583]
+p_4=[1909.8679245283017,1070.132075471698]
+p_5=[1906.0943396226414,511.64150943396226]
+
 p_6=[959.4146341463414,97.29268292682926]
 p_7=[1005.7560975609755,448.5121951219512]
 p_8=[980.1463414634146,93.6341463414634]
@@ -28,10 +30,28 @@ p_10=[942.3414634146341,1058.2682926829268]
 def space_time_diagram(): 
     # Reading Trajectories from txt file
     header_list = ['frm','id','l','t','w','h','1','2','3','4','5'] 
-    space=pd.read_csv('deepsort/Universitaria-LaCultura-carrildebajada_2022-02-05055848-2022-02-06000003_.txt',sep=" ",names=header_list) 
+    path="trajectories/1_12 33 00.txt"
+    space=pd.read_csv(path,sep=" ",names=header_list) 
     mid_pos_t=ltwh2midpoint_t(space)    
-
-    # Region of Insterest
+    #plt.plot(mid_pos_t[:,1],mid_pos_t[:,2],'.',markersize=0.1)
+    img=cv2.imread('./tools/Cal_PnP/pic/frm.jpg')[..., ::-1]
+    #plt.imshow(img)
+    #plt.show()
+    
+    # Region of Interest
+    ROI= Polygon([p_1,p_2,p_3,p_4,p_5])
+    
+    # Trayectory in ROI
+    points_in_class_point_ROI=n_order_dict(mid_pos_t,True)
+    num_ids_in_area_ROI,ordered_tracks_in_area_ROI=tracks_in_area(points_in_class_point_ROI,mid_pos_t,ROI)
+    for i in num_ids_in_area_ROI:
+        plt.plot(ordered_tracks_in_area_ROI['id_'+str(i)][:,0],ordered_tracks_in_area_ROI['id_'+str(i)][:,1],linewidth=1)
+    plt.imshow(img) 
+    plt.savefig('images/trajectories_in_ROI.png',dpi=300)
+    plt.show()
+    
+"""
+    # Region of Interest
     lane_1= Polygon([p_1,p_5,p_6,p_4])
     lane_2= Polygon([p_5,p_7,p_8,p_6])
     lane_3= Polygon([p_7,p_2,p_3,p_8])
@@ -95,7 +115,7 @@ def space_time_diagram():
         pickle.dump(L_l2, f)
     with open('files/L_l3.pkl', 'wb') as f:
         pickle.dump(L_l3, f)
-
+"""
 def trayectory_processing():
  
     inv_homograph=np.linalg.inv(homograph)
@@ -357,5 +377,5 @@ def trayectory_processing():
     plt.plot(x_b,b,'.')
     plt.show()
 if __name__ == '__main__':
-    #space_time_diagram() 
-    trayectory_processing()
+    space_time_diagram() 
+    #trayectory_processing()

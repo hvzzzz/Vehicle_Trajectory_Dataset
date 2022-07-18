@@ -9,3 +9,4 @@ geopy
 EMD-signal
 datetime
 filterpy
+opencv-python
