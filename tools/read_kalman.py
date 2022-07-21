@@ -33,7 +33,7 @@ for i in f_data_dic.keys():
     #print(i)
     #print(np.shape(f_data_dic[i]))
     #if i=="158":
-    plt.plot(f_data_dic[i][:,1],f_data_dic[i][:,2],linewidth=1)
+    plt.plot(f_data_dic[i][:,1],f_data_dic[i][:,2],'.',markersize=2)
 plt.imshow(img)
 plt.savefig('../images/kalman_trajectories.png',dpi=300)
 plt.show()

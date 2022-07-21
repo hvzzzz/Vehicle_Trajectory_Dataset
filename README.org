@@ -15,9 +15,52 @@ We started selecting a region of interest(ROI) in which we will process and extr
 We can see that the trajectories are a quite bit noisy so we are going to use a kalman filter with a linear point mass model, after processing the trajectories with the kalman filter we get the following image.
 
 #+ATTR_ORG: :width 400
-#+caption: Trajectories in ROI
-#+label: fig:traj_in_roi
+#+caption: Filtered Trajectories in ROI
+#+label: fig:fil_traj_in_roi
 #+attr_latex: :width 12cm :options angle=0
 [[./images/kalman_trajectories.png]]
 
+** Trajectory Processing
 
+We are going to use a clustering method Kmeans to group the different trajectories and select the groups of interest.
+*** Selecting the number of clusters
+To select the number of clusters we will use the method described [[https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html#sphx-glr-auto-examples-cluster-plot-kmeans-silhouette-analysis-py][here]].
+Trying with various numbers of clusters we get.
+
+#+begin_src bash
+> python3 tools/silhouette.py
+For n_clusters = 2 The average silhouette_score is : 0.5358767901661167
+For n_clusters = 3 The average silhouette_score is : 0.5687757453635114
+For n_clusters = 4 The average silhouette_score is : 0.5338773003501883
+For n_clusters = 5 The average silhouette_score is : 0.5586381641102413
+For n_clusters = 6 The average silhouette_score is : 0.5540750167250504
+> python3 tools/silhouette.py
+For n_clusters = 7 The average silhouette_score is : 0.5822698391894428
+For n_clusters = 8 The average silhouette_score is : 0.5769440266342957
+For n_clusters = 9 The average silhouette_score is : 0.5667298885969102
+For n_clusters = 15 The average silhouette_score is : 0.6047338819760953
+For n_clusters = 30 The average silhouette_score is : 0.5829601192972251
+> python3 tools/silhouette.py
+For n_clusters = 10 The average silhouette_score is : 0.578052461342305
+For n_clusters = 11 The average silhouette_score is : 0.5874489426928768
+For n_clusters = 12 The average silhouette_score is : 0.5813632704181257
+For n_clusters = 13 The average silhouette_score is : 0.592575430248747
+For n_clusters = 14 The average silhouette_score is : 0.5920042817135786
+For n_clusters = 100 The average silhouette_score is : 0.5943276696604427
+> python3 tools/silhouette.py
+For n_clusters = 16 The average silhouette_score is : 0.5987347608786262
+For n_clusters = 17 The average silhouette_score is : 0.6090003284355272
+For n_clusters = 18 The average silhouette_score is : 0.597291671022866
+For n_clusters = 19 The average silhouette_score is : 0.5985433042076013
+For n_clusters = 20 The average silhouette_score is : 0.589507844442639
+For n_clusters = 50 The average silhouette_score is : 0.6011900269631338
+#+end_src
+
+Using [[./tools/silhouette.py]] We can see that the highest silhouette score corresponds to 17 clusters.
+#+ATTR_ORG: :width 800
+#+caption: Silhouette Analysis for 17 clusters
+#+label: fig:17_clusters
+#+attr_latex: :width 12cm :options angle=0
+[[./images/cluster_17.png]]
+
+In picture [[fig:17_clusters]] we can see the clustered data.

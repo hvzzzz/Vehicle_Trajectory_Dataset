@@ -10,3 +10,4 @@ EMD-signal
 datetime
 filterpy
 opencv-python
+scikit-learn
