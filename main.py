@@ -1,6 +1,7 @@
 from tools.homograph_matrix_read import h_matrix
 from tools.utils import * 
 import cv2
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,7 +12,7 @@ from PyEMD import EMD
 from scipy import signal
 from scipy import ndimage
 from scipy import interpolate
-plt.rcParams['figure.dpi']=200
+#plt.rcParams['figure.dpi']=200
 #Homography Matrix
 homograph=h_matrix('tools/Cal_PnP/data/calibration.txt')
 p_1=[1570.245283018868,339.9433962264151]
@@ -30,26 +31,41 @@ p_10=[942.3414634146341,1058.2682926829268]
 def space_time_diagram(): 
     # Reading Trajectories from txt file
     header_list = ['frm','id','l','t','w','h','1','2','3','4','5'] 
-    path="trajectories/1_12 33 00.txt"
-    space=pd.read_csv(path,sep=" ",names=header_list) 
-    mid_pos_t=ltwh2midpoint_t(space)    
-    #plt.plot(mid_pos_t[:,1],mid_pos_t[:,2],'.',markersize=0.1)
+    path="trajectories_txt/";names=os.listdir(path)
     img=cv2.imread('./tools/Cal_PnP/pic/frm.jpg')[..., ::-1]
-    #plt.imshow(img)
-    #plt.show()
-    
-    # Region of Interest
-    ROI= Polygon([p_1,p_2,p_3,p_4,p_5])
-    
-    # Trayectory in ROI
-    points_in_class_point_ROI=n_order_dict(mid_pos_t,True)
-    num_ids_in_area_ROI,ordered_tracks_in_area_ROI=tracks_in_area(points_in_class_point_ROI,mid_pos_t,ROI)
-    for i in num_ids_in_area_ROI:
-        plt.plot(ordered_tracks_in_area_ROI['id_'+str(i)][:,0],ordered_tracks_in_area_ROI['id_'+str(i)][:,1],linewidth=1)
-    plt.imshow(img) 
-    plt.savefig('images/trajectories_in_ROI.png',dpi=300)
-    plt.show()
-    
+    for vid_name in names:
+        space=pd.read_csv(path+vid_name,sep=" ",names=header_list) 
+        mid_pos_t=ltwh2midpoint_t(space)    
+        #plt.plot(mid_pos_t[:,1],mid_pos_t[:,2],'.',markersize=0.1)
+        #plt.imshow(img)
+        #plt.show()
+        
+        # Region of Interest
+        ROI= Polygon([p_1,p_2,p_3,p_4,p_5])
+        
+        # Trayectory in ROI
+        points_in_class_point_ROI=n_order_dict(mid_pos_t,True)
+        num_ids_in_area_ROI,ordered_tracks_in_area_ROI=tracks_in_area(points_in_class_point_ROI,mid_pos_t,ROI)
+        for i in num_ids_in_area_ROI:
+            #if str(i)=="158":
+            plt.plot(ordered_tracks_in_area_ROI[str(i)][:,0],ordered_tracks_in_area_ROI[str(i)][:,1],linewidth=1)
+        plt.imshow(img) 
+        #plt.savefig('images/trajectories_in_ROI.png',dpi=300)
+        plt.show()
+        
+        # Kalman Filter Export(export in format frame,id,x,y,type)
+        for j in ordered_tracks_in_area_ROI.keys():
+            if(len(ordered_tracks_in_area_ROI[j][:,2])>100):
+                tp=[]
+                for h in range(len(ordered_tracks_in_area_ROI[j][:,2])):
+                    tp.append('ped')
+                dfs=pd.DataFrame({"frame":ordered_tracks_in_area_ROI[j][:,2].astype(int),"id":int(j)*np.ones([len(ordered_tracks_in_area_ROI[j][:,2])]).astype(int),"x":ordered_tracks_in_area_ROI[j][:,0],"y":ordered_tracks_in_area_ROI[j][:,1],"type":tp})
+                outdir="data/trajectories/"+vid_name[0]+"/"+vid_name[:-4]+"/"
+                if not os.path.exists(outdir):
+                    os.mkdir(outdir) 
+                dfs.to_csv(outdir+"p"+j+".csv",index=False) 
+                    
+        
 """
     # Region of Interest
     lane_1= Polygon([p_1,p_5,p_6,p_4])

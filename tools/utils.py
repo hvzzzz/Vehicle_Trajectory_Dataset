@@ -42,10 +42,12 @@ def n_order_dict(ways,point=False):
     count=0
     for i in num_ids:
       count=count+1
-      ordered_tracks['id_'+str(i)]=ways[ways[:,0]==(i),1:] 
+      #ordered_tracks['id_'+str(i)]=ways[ways[:,0]==(i),1:] 
+      ordered_tracks[str(i)]=ways[ways[:,0]==(i),1:] 
     if(point):
       for j in range(len(ways)):
-        ordered_tracks_point_class['id_'+str(j)]=Point(ways[j,1:])
+        #ordered_tracks_point_class['id_'+str(j)]=Point(ways[j,1:])
+        ordered_tracks_point_class[str(j)]=Point(ways[j,1:])
       return ordered_tracks_point_class
     return num_ids,ordered_tracks
 

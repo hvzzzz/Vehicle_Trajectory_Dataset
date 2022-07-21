@@ -12,5 +12,12 @@ We started selecting a region of interest(ROI) in which we will process and extr
 #+attr_latex: :width 12cm :options angle=0
 [[./images/trajectories_in_ROI.png]]
 
+We can see that the trajectories are a quite bit noisy so we are going to use a kalman filter with a linear point mass model, after processing the trajectories with the kalman filter we get the following image.
+
+#+ATTR_ORG: :width 400
+#+caption: Trajectories in ROI
+#+label: fig:traj_in_roi
+#+attr_latex: :width 12cm :options angle=0
+[[./images/kalman_trajectories.png]]
 
 
