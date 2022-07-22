@@ -7,13 +7,14 @@ import pandas as pd
 #print(np.shape(X))
 
 f_data=pd.read_csv("../data/trajectories_filtered/1/1_12 33 00_traj_ped_filtered.csv")
-X=np.zeros([len(f_data),2])
+X=np.zeros([len(f_data),3])
 X[:,0]=f_data['x_est']
 X[:,1]=f_data['y_est']
+X[:,2]=f_data['frame']
 
 kmeans = KMeans(n_clusters=17, random_state=0).fit(X)
 print(kmeans.labels_)
-kmeans.predict([[0, 0], [12, 3]])
+kmeans.predict([[0, 0,0], [12, 3,1]])
 
-kmeans.cluster_centers_
+print(kmeans.cluster_centers_)
 

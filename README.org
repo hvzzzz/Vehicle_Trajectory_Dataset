@@ -24,6 +24,7 @@ We can see that the trajectories are a quite bit noisy so we are going to use a 
 
 We are going to use a clustering method Kmeans to group the different trajectories and select the groups of interest.
 *** Selecting the number of clusters
+**** Using x and y variables
 To select the number of clusters we will use the method described [[https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html#sphx-glr-auto-examples-cluster-plot-kmeans-silhouette-analysis-py][here]].
 Trying with various numbers of clusters we get.
 
@@ -64,3 +65,37 @@ Using [[./tools/silhouette.py]] We can see that the highest silhouette score cor
 [[./images/cluster_17.png]]
 
 In picture [[fig:17_clusters]] we can see the clustered data.
+
+**** Using x, y and frame Variables
+If we add frame as a third variable we get the following
+
+#+begin_src bash
+> python3 tools/silhouette.py
+For n_clusters = 2 The average silhouette_score is : 0.6132029701257091
+For n_clusters = 3 The average silhouette_score is : 0.552350219363859
+For n_clusters = 4 The average silhouette_score is : 0.4876816837974802
+For n_clusters = 5 The average silhouette_score is : 0.436522361584541
+#+end_src
+
+From the silhouette analysis we get that the optimum number of clusters is 2, also we can do an elbow analysis
+#+ATTR_ORG: :width 400
+#+caption: Elbow Analysis
+#+label: fig:elbow3d
+#+attr_latex: :width 12cm :options angle=0
+[[./images/elbow3d.png]]
+
+In the elbow analysis we can see that the optimum number of clusters is 2, the same result as the silhouette analysis
+
+Additionally we can see the clustered data. #+ATTR_ORG: :width 800
+#+caption: Silhouette Analysis for 2 clusters
+#+label: fig:silhouette_2
+#+attr_latex: :width 12cm :options angle=0
+[[./images/cluster_2.png]]
+
+In 3d we have.
+#+ATTR_ORG: :width 800
+#+caption: Silhouette Analysis for 2 clusters
+#+label: fig:silhouette_2
+#+attr_latex: :width 12cm :options angle=0
+[[./images/3d_clusters.png]]
+

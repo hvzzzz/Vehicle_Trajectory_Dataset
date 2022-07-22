@@ -19,14 +19,15 @@ import pandas as pd
 #    random_state=1,
 #)  # For reproducibility
 f_data=pd.read_csv("data/trajectories_filtered/1/1_12 33 00_traj_ped_filtered.csv")
-X=np.zeros([len(f_data),2])
+X=np.zeros([len(f_data),3])
 X[:,0]=f_data['x_est']
 X[:,1]=f_data['y_est']
+X[:,2]=f_data['frame']
 #print(np.shape(X),np.shape(y))
 #plt.plot(X[:,0],X[:,1],'.')
 #plt.show()
 
-range_n_clusters = [16, 17, 18, 19,20,50]
+range_n_clusters = [2, 3, 4, 5]
 
 for n_clusters in range_n_clusters:
     # Create a subplot with 1 row and 2 columns
