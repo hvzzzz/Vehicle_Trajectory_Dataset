@@ -6,18 +6,6 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
 import pandas as pd
-# Generating the sample data from make_blobs
-# This particular setting has one distinct cluster and 3 clusters placed close
-# together.
-#X, y = make_blobs(
-#    n_samples=500,
-#    n_features=2,
-#    centers=4,
-#    cluster_std=1,
-#    center_box=(-10.0, 10.0),
-#    shuffle=True,
-#    random_state=1,
-#)  # For reproducibility
 f_data=pd.read_csv("data/trajectories_filtered/1/1_12 33 00_traj_ped_filtered.csv")
 X=np.zeros([len(f_data),3])
 X[:,0]=f_data['x_est']

@@ -1,0 +1,22 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import metrics
+from sklearn.datasets import make_circles
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import DBSCAN
+X, y = make_circles(n_samples=750, factor=0.3, noise=0.1)
+X = StandardScaler().fit_transform(X)
+y_pred = DBSCAN(eps=0.3, min_samples=10).fit_predict(X)
+
+plt.scatter(X[:,0], X[:,1], c=y_pred)
+plt.show()
+print('Number of clusters: {}'.format(len(set(y_pred[np.where(y_pred != -1)]))))
+print('Homogeneity: {}'.format(metrics.homogeneity_score(y, y_pred)))
+print('Completeness: {}'.format(metrics.completeness_score(y, y_pred)))
+print("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
+print("Adjusted Rand Index: %0.3f"
+      % metrics.adjusted_rand_score(labels_true, labels))
+print("Adjusted Mutual Information: %0.3f"
+      % metrics.adjusted_mutual_info_score(labels_true, labels))
+print("Silhouette Coefficient: %0.3f"
+      % metrics.silhouette_score(X, labels))

@@ -21,9 +21,9 @@ We can see that the trajectories are a quite bit noisy so we are going to use a 
 [[./images/kalman_trajectories.png]]
 
 ** Trajectory Processing
-
+We are going to try different methods of clustering to group the trajectories and select the group with the interactions between pedestrians and vehicles.
+*** KMeans
 We are going to use a clustering method Kmeans to group the different trajectories and select the groups of interest.
-*** Selecting the number of clusters
 **** Using x and y variables
 To select the number of clusters we will use the method described [[https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html#sphx-glr-auto-examples-cluster-plot-kmeans-silhouette-analysis-py][here]].
 Trying with various numbers of clusters we get.
@@ -86,7 +86,8 @@ From the silhouette analysis we get that the optimum number of clusters is 2, al
 
 In the elbow analysis we can see that the optimum number of clusters is 2, the same result as the silhouette analysis
 
-Additionally we can see the clustered data. #+ATTR_ORG: :width 800
+Additionally we can see the clustered data.
+#+ATTR_ORG: :width 800
 #+caption: Silhouette Analysis for 2 clusters
 #+label: fig:silhouette_2
 #+attr_latex: :width 12cm :options angle=0
@@ -99,3 +100,15 @@ In 3d we have.
 #+attr_latex: :width 12cm :options angle=0
 [[./images/3d_clusters.png]]
 
+*** DBscan
+This clustering method groups the data according to the density of the data, using the following parameters we get.
+#+begin_src bash
+db = DBSCAN(eps=30, min_samples=10).fit(X)
+#+end_src
+#+ATTR_ORG: :width 800
+#+caption: Silhouette Analysis for 2 clusters
+#+label: fig:eps_30
+#+attr_latex: :width 12cm :options angle=0
+[[./images/dbscan_eps_30.png]]
+
+In the previous figure we can see that there are two clusters, the red one contains all the trajectories that belong to vehicles and the second one (in yellow) corresponds to noise.
