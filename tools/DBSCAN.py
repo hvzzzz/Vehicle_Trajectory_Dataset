@@ -7,7 +7,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
 #X, y = make_circles(n_samples=750, factor=0.3, noise=0.1)
 #X = StandardScaler().fit_transform(X)
-f_data=pd.read_csv("../data/trajectories_filtered/1/1_12 33 00_traj_ped_filtered.csv")
+#f_data=pd.read_csv("../data/trajectories_filtered/1/1_12 33 00_traj_ped_filtered.csv")
+f_data=pd.read_csv("../data/trajectories_filtered/2/2_05 57 00_traj_ped_filtered.csv")
+#f_data=pd.read_csv("../data/trajectories_filtered/13/13_06 17 00_traj_ped_filtered.csv")
 X=np.zeros([len(f_data),3])
 
 X[:,0]=f_data['x_est']

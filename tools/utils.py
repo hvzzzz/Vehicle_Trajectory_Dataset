@@ -232,3 +232,11 @@ def spds_acce(x,y):#determinacion del vector de velocidades y aceleraciones para
 def splines(x,x_points,y_points):
     tck = interpolate.splrep(x_points, y_points)
     return interpolate.splev(x, tck)
+def get_num_from_name(name):
+    for letter in range(len(name)):
+        if(name[letter]=="_"):
+            num=name[:letter]
+            break
+        else:
+            num=None
+    return (num)

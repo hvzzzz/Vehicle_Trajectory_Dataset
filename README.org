@@ -95,7 +95,7 @@ Additionally we can see the clustered data.
 
 In 3d we have.
 #+ATTR_ORG: :width 800
-#+caption: Silhouette Analysis for 2 clusters
+#+caption: KMeans with 2 Clusters
 #+label: fig:silhouette_2
 #+attr_latex: :width 12cm :options angle=0
 [[./images/3d_clusters.png]]
@@ -106,9 +106,21 @@ This clustering method groups the data according to the density of the data, usi
 db = DBSCAN(eps=30, min_samples=10).fit(X)
 #+end_src
 #+ATTR_ORG: :width 800
-#+caption: Silhouette Analysis for 2 clusters
+#+caption: DBscan with 2 Clusters
 #+label: fig:eps_30
 #+attr_latex: :width 12cm :options angle=0
 [[./images/dbscan_eps_30.png]]
 
 In the previous figure we can see that there are two clusters, the red one contains all the trajectories that belong to vehicles and the second one (in yellow) corresponds to noise.
+Let's try this configuration with trajectories from another cameras.
+#+ATTR_ORG: :width 800
+#+caption: DBscan with 1 Cluster
+#+label: fig:cam_2
+#+attr_latex: :width 12cm :options angle=0
+[[./images/dbscan_camera_2.png]]
+#+ATTR_ORG: :width 800
+#+caption: DBscan with 3 Clusters
+#+label: fig:cam_13
+#+attr_latex: :width 12cm :options angle=0
+[[./images/dbscan_camera_13.png]]
+
