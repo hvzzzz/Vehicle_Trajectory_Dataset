@@ -124,3 +124,4 @@ Let's try this configuration with trajectories from another cameras.
 #+attr_latex: :width 12cm :options angle=0
 [[./images/dbscan_camera_13.png]]
 
+With the given configuration in the image of the camera 2, we can see that there is only one cluster so, we can infer that there were no detection errors, on the other hand in the trajectories from the camera 13, we can see that there are 3 clusters, in this situation the first assumption that there will be two clusters need to be updated with more type of error or in the worst case scenario deny the first assumption.
