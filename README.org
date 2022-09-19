@@ -19,7 +19,6 @@ We can see that the trajectories are a quite bit noisy so we are going to use a 
 #+label: fig:fil_traj_in_roi
 #+attr_latex: :width 12cm :options angle=0
 [[./images/kalman_trajectories.png]]
-
 ** Trajectory Processing
 We are going to try different methods of clustering to group the trajectories and select the group with the interactions between pedestrians and vehicles.
 *** KMeans
@@ -111,9 +110,7 @@ db = DBSCAN(eps=30, min_samples=10).fit(X)
 #+attr_latex: :width 12cm :options angle=0
 [[./images/dbscan_eps_30.png]]
 
-In the previous figure we can see that there are two clusters, the red one contains all the trajectories that belong to vehicles and the second one (in yellow) corresponds to noise.
-Let's try this configuration with trajectories from another cameras.
-#+ATTR_ORG: :width 800
+In the previous figure we can see that there are two clusters, the red one contains all the trajectories that belong to vehicles and the second one (in yellow) corresponds to noise. Let's try this configuration with trajectories from another cameras. #+ATTR_ORG: :width 800
 #+caption: DBscan with 1 Cluster
 #+label: fig:cam_2
 #+attr_latex: :width 12cm :options angle=0
@@ -124,4 +121,43 @@ Let's try this configuration with trajectories from another cameras.
 #+attr_latex: :width 12cm :options angle=0
 [[./images/dbscan_camera_13.png]]
 
+** Choice of Number of Video Clips to Process
+*** Camera 15
 With the given configuration in the image of the camera 2, we can see that there is only one cluster so, we can infer that there were no detection errors, on the other hand in the trajectories from the camera 13, we can see that there are 3 clusters, in this situation the first assumption that there will be two clusters need to be updated with more type of error or in the worst case scenario deny the first assumption.
+There is too much data so we are going to limit the hours in which we will process the videos
+#+ATTR_ORG: :width 800
+#+caption: Number of Pedestrians at Various Hours
+#+label: fig:pedes
+#+attr_latex: :width 12cm :options angle=0
+[[./images/number_pedestrian.png]]
+
+The chosen hours for diagonal_subida(15) are from 9:42AM to 2:46PM and from 3:46PM to 7:06PM almost 125 videos to process, still too much
+#+ATTR_ORG: :width 800
+#+caption: Number of Pedestrians at Various Hours
+#+label: fig:pedes_1
+#+attr_latex: :width 12cm :options angle=0
+k[[./images/number_pedestrian_1.png]]
+
+The chosen hours for diagonal_subida are from 11:46AM to 2:06PM and from 4:42PM to 7:06PM almost 71 videos to process, this quantity is fine.
+
+|--------+-------------------+------------------------+-------------------+----------------------|
+| Camera | Intervals         | Number of Videos       | Vehicle Detection | Pedestrian Detection |
+|--------+-------------------+------------------------+-------------------+----------------------|
+|     16 | [63,118][163,178] | 118-63+209-163-2=68    | Processed         |                      |
+|     15 | [88,123][162,198] | 123-88+198-162=71-2=69 | Processed         |                      |
+|     14 | [74,118]          | 118-74-2=42            | Processed         |                      |
+|     13 | [53,117]          | 117-53-2=62            | Processed         |                      |
+|     12 | [69,91][167,220]  | 135-69+220-167-2=73    | Processed         |                      |
+|     11 | [61,75][99,136]   | 75-61+136-99-2=49      | Processed         |                      |
+|     10 | [117,146]         | 146-117-2=27           | Processed         |                      |
+|      9 | [74,77][121,139]  | 77-74+139-121-2=19     | Processed         |                      |
+|      8 | [81,146]          | 146-81-2=63            | Processed         |                      |
+|      7 | [71,141]          | 141-71-2=68            | Processed         |                      |
+|      6 | [62,85][109,146]  | 85-62+146-109-2=58     | Processed         |                      |
+|      5 | [68,100]          | 100-68-2=30            | Processed         |                      |
+|      4 | [122,186]         | 186-122-2=62           | Processed         |                      |
+|      3 | [64,129]          | 129-64-2=63            | Processed         |                      |
+|      2 | [93,120][162,184] | 120-93+184-162-2=47    | Processed         |                      |
+|      1 | [65,125]          | 125-65-2=58            | Processed         |                      |
+|--------+-------------------+------------------------+-------------------+----------------------|
+

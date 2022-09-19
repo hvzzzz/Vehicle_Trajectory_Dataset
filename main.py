@@ -1,5 +1,5 @@
 from tools.homograph_matrix_read import h_matrix
-from tools.utils import * 
+from tools.utils import *
 import cv2
 import os
 import pandas as pd
@@ -26,15 +26,15 @@ p_7=[4.2075471698113205,1068.245283018868]
 p_8=[1907.9811320754716,1066.3584905660377]
 p_9=[1917.4150943396226,424.84905660377353]
 p_10=[1570.245283018868,253.1509433962264]
-cam_2=[p_6,p_7,p_8,p_9,p_10]      
-p_11=[462.6981132075471,177.67924528301887] 
+cam_2=[p_6,p_7,p_8,p_9,p_10]
+p_11=[462.6981132075471,177.67924528301887]
 p_12=[7.981132075471699,500.3207547169811]
 p_13=[11.754716981132074,1070.132075471698]
 p_14=[1909.8679245283017,1068.245283018868]
 p_15=[1915.5283018867924,128.62264150943395]
-p_16=[1511.754716981132,100.32075471698113]   
-cam_13=[p_10,p_11,p_12,p_13,p_14,p_15,p_16]      
-def space_time_diagram(): 
+p_16=[1511.754716981132,100.32075471698113]
+cam_13=[p_10,p_11,p_12,p_13,p_14,p_15,p_16]
+def space_time_diagram():
     # Reading Trajectories from txt file
     header_list = ['frm','id','l','t','w','h','1','2','3','4','5'] 
     path="trajectories_txt/";names=os.listdir(path)
@@ -42,14 +42,14 @@ def space_time_diagram():
     for vid_name in names:
         print("Processing "+vid_name)
         space=pd.read_csv(path+vid_name,sep=" ",names=header_list) 
-        mid_pos_t=ltwh2midpoint_t(space)    
+        mid_pos_t=ltwh2midpoint_t(space)
         #plt.plot(mid_pos_t[:,1],mid_pos_t[:,2],'.',markersize=0.1)
         #plt.imshow(img)
         #plt.show()
-        
+
         # Region of Interest
         ROI= Polygon(globals()["cam_"+get_num_from_name(vid_name)])
-        
+
         # Trayectory in ROI
         points_in_class_point_ROI=n_order_dict(mid_pos_t,True)
         num_ids_in_area_ROI,ordered_tracks_in_area_ROI=tracks_in_area(points_in_class_point_ROI,mid_pos_t,ROI)
@@ -58,7 +58,7 @@ def space_time_diagram():
         #plt.imshow(img) 
         #plt.savefig('images/trajectories_in_ROI.png',dpi=300)
         #plt.show()
-        
+
         # Kalman Filter Export(export in format frame,id,x,y,type)
         for j in ordered_tracks_in_area_ROI.keys():
             if(len(ordered_tracks_in_area_ROI[j][:,2])>100):
@@ -137,7 +137,7 @@ def space_time_diagram():
         pickle.dump(L_l3, f)
 """
 def trayectory_processing():
- 
+
     inv_homograph=np.linalg.inv(homograph)
     with open('files/L_l1.pkl', 'rb') as f:
         L_l1 = pickle.load(f);time_l1=frm2time(L_l1)

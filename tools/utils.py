@@ -5,7 +5,7 @@ from geopy.distance import great_circle
 import datetime as dt
 from scipy import interpolate
 
-# DeepSort Trajectories Reading and Processing
+# Deep Sort Trajectories Reading and Processing
 def ltwh2midpoint(space):
     mid_pos=np.zeros([len(space),3])
     mid_pos[:,0]=space['id'].to_numpy('float')
