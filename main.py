@@ -406,7 +406,7 @@ def pedestrian_vehicle_trajectory_union():
     interaction_p={}
     interaction_p['1_04 13 00']=35
     interaction_p['1_06 13 00']=113
-    interaction_p['1_06 37 00']=5
+    interaction_p['1_06 37 00']=228
     interaction_p['1_07 01 00']=664
     interaction_p['1_07 25 00']=246
     interaction_p['1_07 49 00']=171

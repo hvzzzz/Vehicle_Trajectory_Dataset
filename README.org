@@ -161,7 +161,6 @@ The chosen hours for diagonal_subida are from 11:46AM to 2:06PM and from 4:42PM 
 |      1 | [65,125]          | 125-65-2=58            | Processed         |
 |--------+-------------------+------------------------+-------------------|
 
-
 ** Pedestrian Trajectories and Vehicle Trajectories Merge
 Once processed the vehicle and pedestrian trajectories we proceded to label the trajectories in order to find the interactions.
 
@@ -186,7 +185,7 @@ Processing Pedestrians 1_06 37 00_traj_ped_filtered.csv
 #+end_example
 
 #+ATTR_ORG: :width 800
-[[./images/1_04_13_00_1_04 13 00.png]]
+[[./images/1_06_37_00_1_06 37 00.png]]
 
 #+ATTR_ORG: :width 800
 [[./images/1_07_01_00_1_07 01 00.png]]
