@@ -11,14 +11,14 @@ def ltwh2midpoint(space):
     mid_pos[:,0]=space['id'].to_numpy('float')
     mid_pos[:,1]=space['l'].to_numpy('float')+space['w'].to_numpy(dtype='float')/2 #x_mid
     mid_pos[:,2]=space['t'].to_numpy('float')+space['h'].to_numpy(dtype='float')/2 #y_mid
-    return mid_pos 
+    return mid_pos
 
 def ltwh2midpoint_t(space):
     mid_pos=np.zeros([len(space),4])
     mid_pos[:,0]=space['id'].to_numpy('float')
     mid_pos[:,1]=space['l'].to_numpy('float')+space['w'].to_numpy(dtype='float')/2 #x_mid
     mid_pos[:,2]=space['t'].to_numpy('float')+space['h'].to_numpy(dtype='float')/2 #y_mid
-    mid_pos[:,3]=space['frm'].to_numpy('int')  
+    mid_pos[:,3]=space['frm'].to_numpy('int')
     return mid_pos
 
 def order_dict(ways,point=False):
@@ -35,15 +35,15 @@ def order_dict(ways,point=False):
     else:
       return ordered_tracks_point_class
 
-def n_order_dict(ways,point=False):  
+def n_order_dict(ways,point=False):
     num_ids=np.unique(ways[:,0].astype(int))
     ordered_tracks={}
     ordered_tracks_point_class={}
     count=0
     for i in num_ids:
       count=count+1
-      #ordered_tracks['id_'+str(i)]=ways[ways[:,0]==(i),1:] 
-      ordered_tracks[str(i)]=ways[ways[:,0]==(i),1:] 
+      #ordered_tracks['id_'+str(i)]=ways[ways[:,0]==(i),1:]
+      ordered_tracks[str(i)]=ways[ways[:,0]==(i),1:]
     if(point):
       for j in range(len(ways)):
         #ordered_tracks_point_class['id_'+str(j)]=Point(ways[j,1:])
@@ -64,7 +64,7 @@ def tracks_in_area(p_i_c_p,mid_pos,polygon):
 def mod(v):
     modulo=np.sqrt(v[0]**2+v[1]**2)
     return modulo
-  
+
 def mod_c(v):
     modulo=np.sqrt(v[:,0]**2+v[:,1]**2)
     return modulo
@@ -81,7 +81,7 @@ def distance_2p(p1,p2):
     d=np.sqrt((p1[0]-p2[0])**2+(p1[1]-p2[1])**2)
     return d
 
-def initial_point(ids_list,o_t_i_a,vect_l,direction_x,direction_y): # determinacion de la distancia del punto inicial del vector a la proyeccion del punto inicial de la trayectoria en el vector de direccion. 
+def initial_point(ids_list,o_t_i_a,vect_l,direction_x,direction_y): # determinacion de la distancia del punto inicial del vector a la proyeccion del punto inicial de la trayectoria en el vector de direccion.
     initial_p=[direction_x[0,0],direction_y[0,0]]
     initial_x={}
     for i in ids_list:
@@ -119,7 +119,7 @@ def cos_ang_vect(ids_list,o_t_v,vect_l):#determinacion de vector de l, la segund
       proyections['id_'+str(i)][:,0]=np.nan_to_num(proyections['id_'+str(i)][:,0])
       proyections['id_'+str(i)][:,1]=ordered_tracks_vect_cos['id_'+str(i)]
     return proyections#ordered_tracks_vect_cos
-    
+
 # Time Space Diagram Generation
 
 def space_t_diagram(list_init,init,list_vect,vect):#generacion del vector de l sumados
@@ -134,7 +134,7 @@ def space_t_diagram(list_init,init,list_vect,vect):#generacion del vector de l s
           space['id_'+str(i)][j][0]=vect['id_'+str(i)][j,0]
           space['id_'+str(i)][j][1]=vect['id_'+str(i)][j,2]
     return space
-  
+
 def diagram_corrected(init_p,proyect):#generacion del vector de l sumados con la distancia al punto inicial 
     diagram=init_p.copy()
     for i in proyect.keys():
@@ -147,10 +147,10 @@ def diagram_corrected(init_p,proyect):#generacion del vector de l sumados con la
 def gen_xy_in_line(first_p,last_p,space_time):#conversion del vector de l sumados a coordenadas en la recta del vector direccion
     gamma=np.arctan((last_p[1]-first_p[1])/(last_p[0]-first_p[0]))
     if(gamma<0):
-      gamma=-gamma 
+      gamma=-gamma
     xy=space_time.copy()
     for i in space_time.keys():
-      xy[i]=np.zeros([np.shape(space_time[i])[0],4])    
+      xy[i]=np.zeros([np.shape(space_time[i])[0],4])
       if(not(isinstance(space_time[i],list))):
         xy[i][:,0]=first_p[0]*np.ones([np.shape(xy[i])[0]])+space_time[i][:,0]*np.cos(gamma)
         xy[i][:,1]=first_p[1]*np.ones([np.shape(xy[i])[0]])+space_time[i][:,0]*np.sin(gamma)

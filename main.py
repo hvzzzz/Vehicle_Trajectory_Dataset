@@ -34,19 +34,22 @@ p_14=[1909.8679245283017,1068.245283018868]
 p_15=[1915.5283018867924,128.62264150943395]
 p_16=[1511.754716981132,100.32075471698113]
 cam_13=[p_10,p_11,p_12,p_13,p_14,p_15,p_16]
+
 def space_time_diagram():
     # Reading Trajectories from txt file
-    header_list = ['frm','id','l','t','w','h','1','2','3','4','5'] 
-    path="trajectories_txt/";names=os.listdir(path)
+    header_list = ['frm','id','l','t','w','h','1','2','3','4','5']
+    #path="trajectories_txt/"
+    #path="Results/trajectories_pedestrian/"
+    path="Results/trajectories_vehicle/"
+    names=os.listdir(path)
     img=cv2.imread('./tools/Cal_PnP/pic/frm.jpg')[..., ::-1]
     for vid_name in names:
         print("Processing "+vid_name)
-        space=pd.read_csv(path+vid_name,sep=" ",names=header_list) 
+        space=pd.read_csv(path+vid_name,sep=" ",names=header_list)
         mid_pos_t=ltwh2midpoint_t(space)
         #plt.plot(mid_pos_t[:,1],mid_pos_t[:,2],'.',markersize=0.1)
         #plt.imshow(img)
         #plt.show()
-
         # Region of Interest
         ROI= Polygon(globals()["cam_"+get_num_from_name(vid_name)])
 
@@ -55,7 +58,7 @@ def space_time_diagram():
         num_ids_in_area_ROI,ordered_tracks_in_area_ROI=tracks_in_area(points_in_class_point_ROI,mid_pos_t,ROI)
         #for i in num_ids_in_area_ROI:
         #    plt.plot(ordered_tracks_in_area_ROI[str(i)][:,0],ordered_tracks_in_area_ROI[str(i)][:,1],linewidth=1)
-        #plt.imshow(img) 
+        #plt.imshow(img)
         #plt.savefig('images/trajectories_in_ROI.png',dpi=300)
         #plt.show()
 
@@ -66,10 +69,11 @@ def space_time_diagram():
                 for h in range(len(ordered_tracks_in_area_ROI[j][:,2])):
                     tp.append('ped')
                 dfs=pd.DataFrame({"frame":ordered_tracks_in_area_ROI[j][:,2].astype(int),"id":int(j)*np.ones([len(ordered_tracks_in_area_ROI[j][:,2])]).astype(int),"x":ordered_tracks_in_area_ROI[j][:,0],"y":ordered_tracks_in_area_ROI[j][:,1],"type":tp})
-                outdir="data/trajectories/"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
+                #outdir="data/trajectories/"+"p"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
+                outdir="data/trajectories/"+"v"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
                 if not os.path.exists(outdir):
-                    os.mkdir(outdir) 
-                dfs.to_csv(outdir+"p"+j+".csv",index=False)  
+                    os.mkdir(outdir)
+                dfs.to_csv(outdir+"p"+j+".csv",index=False)
 """
     # Region of Interest
     lane_1= Polygon([p_1,p_5,p_6,p_4])
@@ -87,7 +91,7 @@ def space_time_diagram():
     #Vector Extraction
 
     direction_x=np.zeros([2,1])
-    direction_x[0,0]=p_9[0];direction_x[1,0]=p_10[0]  
+    direction_x[0,0]=p_9[0];direction_x[1,0]=p_10[0]
     direction_y=np.zeros([2,1])
     direction_y[0,0]=p_9[1];direction_y[1,0]=p_10[1]
     v_l1=np.copy(p_10)-np.copy(p_9)
@@ -245,7 +249,7 @@ def trayectory_processing():
     #plt.savefig('images/accelerations.png',dpi=200)
     ##plt.show()
 
-    # EMD 
+    # EMD
     # Define signal
 
     t=speed_ac_l3['id_10752'][:,-1]
@@ -253,7 +257,6 @@ def trayectory_processing():
     # Execute EMD on signal
     IMF = EMD().emd(s,t)
     N = IMF.shape[0]+1
-    
     # Plot results
     #fig4=plt.figure(4)
     #plt.figure(figsize=(16, 20), dpi=150)
@@ -381,7 +384,7 @@ def trayectory_processing():
     #plt.grid(True)
     #plt.subplot(1,3,3);plt.title('Trajectory with fallbacks replaced by cubic spline',fontsize=7)
     #plt.plot(x_sm,y_spline,'.');plt.grid(True)
-    ##plt.savefig('images/trajectory_with_no_fallbacks.png',dpi=200)  
+    ##plt.savefig('images/trajectory_with_no_fallbacks.png',dpi=200)
     #plt.show()
     #plt.plot(x_b,b,'.')
     #plt.grid(True);plt.title('Trajectory without fallbacks',fontsize=7)
@@ -396,6 +399,117 @@ def trayectory_processing():
     plt.plot(x_b,y_g1d_p,'.')
     plt.plot(x_b,b,'.')
     plt.show()
+
+def pedestrian_vehicle_trajectory_union():
+    #path="trajectories_txt/"
+    #path="Results/trajectories_pedestrian/"
+    interaction_p={}
+    interaction_p['1_04 13 00']=35
+    interaction_p['1_06 13 00']=113
+    interaction_p['1_06 37 00']=5
+    interaction_p['1_07 01 00']=664
+    interaction_p['1_07 25 00']=246
+    interaction_p['1_07 49 00']=171
+
+    interaction_v={}
+    interaction_v['1_04_13_00']=65
+    interaction_v['1_06_13_00']=49
+    interaction_v['1_06_37_00']=42
+    interaction_v['1_07_01_00']=92
+    interaction_v['1_07_25_00']=113
+    interaction_v['1_07_49_00']=119
+
+    #interaction_v['1_04_13_00']=np.array([65])
+    #interaction_v['1_06_13_00']=np.array([95])
+    #interaction_v['1_06_37_00']=np.array([101])
+    #interaction_v['1_07_01_00']=np.array([107])
+    #interaction_v['1_07_25_00']=np.array([113])
+    #interaction_v['1_07_49_00']=np.array([119])
+
+    vid_p=['1_07 49 00','1_04 13 00','1_07 01 00','1_07 25 00','1_06 13 00','1_06 37 00']
+    path_pedestrian="data/trajectories_filtered/p1/"
+    path_vehicle="data/trajectories_filtered/v1/"
+    names_ped=os.listdir(path_pedestrian)
+    names_veh=os.listdir(path_vehicle)
+    path=path_vehicle
+    names=names_veh
+    for vid_name in names:
+        if(vid_name[-3:]=="csv"):
+            print("Processing Vehicles "+vid_name)
+            data_df=pd.read_csv(path+vid_name,sep=",")
+            #print(data_df)
+            data=np.zeros([len(data_df),6])
+            data[:,0]=data_df['id'].to_numpy('float')
+            data[:,1]=data_df['frame'].to_numpy('float')
+            data[:,2]=data_df['x_est'].to_numpy('float')
+            data[:,3]=data_df['y_est'].to_numpy('float')
+            data[:,4]=data_df['vx_est'].to_numpy('float')
+            data[:,5]=data_df['vy_est'].to_numpy('float')
+            num_ids,ordered_tracks=n_order_dict(data)
+            #print(num_ids)
+            #print(vid_name[:-22],interaction_v[vid_name[:-22]],str(interaction_v[vid_name[:-22]]))
+            interaction_v[vid_name[:-22]]=ordered_tracks[str(interaction_v[vid_name[:-22]])][:,1:3]
+            #idesito=str(interaction_v[vid_name[:-22]])
+            #print(idesito)
+            #print(ordered_tracks[idesito])
+            #if(vid_name[:-22]==):
+            #for i in ordered_tracks.keys():
+                #if(i=="192"):
+                    #print(ordered_tracks[i][:,1])
+            #    print(i)
+            #    plt.plot(ordered_tracks[i][:,1],ordered_tracks[i][:,2])
+            #plt.title(vid_name)
+            #plt.show()
+            #    print(ordered_tracks[i][:,0])
+    #print(interaction_v)
+    path=path_pedestrian
+    names=names_ped
+
+    for vid_name in names:
+        if(vid_name[-3:]=="csv"):
+            print("Processing Pedestrians "+vid_name)
+            data_df=pd.read_csv(path+vid_name,sep=",")
+            #print(data_df)
+            data=np.zeros([len(data_df),6])
+            data[:,0]=data_df['id'].to_numpy('float')
+            data[:,1]=data_df['frame'].to_numpy('float')
+            data[:,2]=data_df['x_est'].to_numpy('float')
+            data[:,3]=data_df['y_est'].to_numpy('float')
+            data[:,4]=data_df['vx_est'].to_numpy('float')
+            data[:,5]=data_df['vy_est'].to_numpy('float')
+            num_ids,ordered_tracks=n_order_dict(data)
+            #print(num_ids)
+            #print(vid_name[:-22],interaction_v[vid_name[:-22]],str(interaction_v[vid_name[:-22]]))
+            interaction_p[vid_name[:-22]]=ordered_tracks[str(interaction_p[vid_name[:-22]])][:,1:3]
+            #idesito=str(interaction_v[vid_name[:-22]])
+            #print(idesito)
+            #print(ordered_tracks[idesito])
+            #if(vid_name[:-22]==):
+            #for i in ordered_tracks.keys():
+                #if(i=="192"):
+                    #print(ordered_tracks[i][:,1])
+            #    print(i)
+            #    plt.plot(ordered_tracks[i][:,1],ordered_tracks[i][:,2])
+            #plt.title(vid_name)
+            #plt.show()
+            #    print(ordered_tracks[i][:,0])
+    #print(interaction_v)
+
+    #for i in interaction_v.keys():
+    #    print(i)
+        #print(np.shape(interaction_v[i]))
+        #plt.plot(interaction_v[i][:,0],interaction_v[i][:,1])
+        #plt.title(i)
+        #plt.show()
+
+    for (k,v), (k2,v2) in zip(interaction_v.items(), interaction_p.items()):
+        plt.plot(v[:,0],v[:,1],label='Vehicle')
+        plt.plot(v2[:,0],v2[:,1],label='Pedestrian')
+        plt.title(k+" "+k2)
+        plt.legend()
+        plt.savefig("images/"+k+"_"+k2+".png")
+        plt.show()
 if __name__ == '__main__':
-    space_time_diagram() 
+    pedestrian_vehicle_trajectory_union()
+    #space_time_diagram()
     #trayectory_processing()
