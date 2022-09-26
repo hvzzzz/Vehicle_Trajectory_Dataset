@@ -6,8 +6,10 @@ pandas
 opencv-python
 shapely
 geopy
+geopandas
 EMD-signal
 datetime
 filterpy
 opencv-python
 scikit-learn
+basemap
