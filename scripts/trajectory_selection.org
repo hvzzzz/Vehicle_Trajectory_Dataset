@@ -28,8 +28,8 @@
 
 * Setup Vehicles and Pedestrians IDs
 #+begin_src python :session traj :results silent
-  ids_p=[35,113,228,664,246,171,18,31,266,499]
-  ids_v=[65,49,85,92,113,119,9,137,122,140]
+  ids_p=[35,113,228,664,246,171,18,31,266,499,497,297,516,654,290]
+  ids_v=[65,49,85,92,113,119,9,137,122,140,161,136,158,190,182]
 
   interaction_p={}
   interaction_p['1_04 13 00']=ids_p[0]
@@ -42,6 +42,11 @@
   interaction_p['5_04:57:00']=ids_p[7]
   interaction_p['13_03:37:00']=ids_p[8]
   interaction_p['3_04:25:00']=ids_p[9]
+  interaction_p['3_04:37:00']=ids_p[10]
+  interaction_p['3_04:41:00']=ids_p[11]
+  interaction_p['3_04:45:00']=ids_p[12]
+  interaction_p['3_05:05:00']=ids_p[13]
+  interaction_p['3_05:21:00']=ids_p[14]
   
 
   interaction_v={}
@@ -55,6 +60,12 @@
   interaction_v['5_04:57:00']=ids_v[7]
   interaction_v['13_03:37:00']=ids_v[8]
   interaction_v['3_04:25:00']=ids_v[9]
+  interaction_v['3_04:37:00']=ids_v[10]
+  interaction_v['3_04:41:00']=ids_v[11]
+  interaction_v['3_04:45:00']=ids_v[12]
+  interaction_v['3_05:05:00']=ids_v[13]
+  interaction_v['3_05:21:00']=ids_v[14]
+  
 #+end_src
 
 * Setup paths for files
