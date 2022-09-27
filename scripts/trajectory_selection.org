@@ -28,8 +28,8 @@
 
 * Setup Vehicles and Pedestrians IDs
 #+begin_src python :session traj :results silent
-  ids_p=[35,113,228,664,246,171,18,86]
-  ids_v=[65,49,85,92,113,119,9,34]
+  ids_p=[35,113,228,664,246,171,18,31,266,499,497,297,516,654,290,572,124,536,655,576]
+  ids_v=[65,49,85,92,113,119,9,137,122,140,161,136,158,190,182,167,1,202,214,167]
 
   interaction_p={}
   interaction_p['1_04 13 00']=ids_p[0]
@@ -40,7 +40,18 @@
   interaction_p['1_07 49 00']=ids_p[5]
   interaction_p['5_04:37:00']=ids_p[6]
   interaction_p['5_04:57:00']=ids_p[7]
-
+  interaction_p['13_03:37:00']=ids_p[8]
+  interaction_p['3_04:25:00']=ids_p[9]
+  interaction_p['3_04:37:00']=ids_p[10]
+  interaction_p['3_04:41:00']=ids_p[11]
+  interaction_p['3_04:45:00']=ids_p[12]
+  interaction_p['3_05:05:00']=ids_p[13]
+  interaction_p['3_05:21:00']=ids_p[14]
+  interaction_p['3_04:45:00']=ids_p[15]
+  interaction_p['3_05:33:00']=ids_p[16]
+  interaction_p['3_05:53:00']=ids_p[17]
+  interaction_p['3_05:53:00']=ids_p[18]
+  interaction_p['3_06:01:00']=ids_p[19]
 
   interaction_v={}
   interaction_v['1_04_13_00']=ids_v[0]
@@ -51,11 +62,23 @@
   interaction_v['1_07_49_00']=ids_v[5]
   interaction_v['5_04:37:00']=ids_v[6]
   interaction_v['5_04:57:00']=ids_v[7]
+  interaction_v['13_03:37:00']=ids_v[8]
+  interaction_v['3_04:25:00']=ids_v[9]
+  interaction_v['3_04:37:00']=ids_v[10]
+  interaction_v['3_04:41:00']=ids_v[11]
+  interaction_v['3_04:45:00']=ids_v[12]
+  interaction_v['3_05:05:00']=ids_v[13]
+  interaction_v['3_05:21:00']=ids_v[14]
+  interaction_v['3_04:45:00']=ids_v[15]
+  interaction_v['3_05:33:00']=ids_v[16]
+  interaction_v['3_05:53:00']=ids_v[17]
+  interaction_v['3_05:53:00']=ids_v[18]
+  interaction_v['3_06:01:00']=ids_v[19]
 #+end_src
 
 * Setup Camera List for files
 #+begin_src python :session traj :results output
-  cam_list=[1,5]
+  cam_list=[1,3,5,13]
   '''
   path_pedestrian="../data/trajectories_filtered/p1/"
   path_vehicle="../data/trajectories_filtered/v1/"
