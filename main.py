@@ -14,7 +14,7 @@ from scipy import ndimage
 from scipy import interpolate
 #plt.rcParams['figure.dpi']=200
 #Homography Matrix
-homograph=h_matrix('tools/Cal_PnP/data/calibration.txt')
+#homograph=h_matrix('tools/Cal_PnP/data/calibration.txt')
 p_1=[1570.245283018868,339.9433962264151]
 p_2=[760.8113207547169,358.811320754717]
 p_3=[377.79245283018867,1073.9056603773583]
@@ -34,13 +34,27 @@ p_14=[1909.8679245283017,1068.245283018868]
 p_15=[1915.5283018867924,128.62264150943395]
 p_16=[1511.754716981132,100.32075471698113]
 cam_13=[p_10,p_11,p_12,p_13,p_14,p_15,p_16]
+p_17=[1.75,136.5]
+p_18=[1.75,715.25]
+p_19=[1276.75,714.0]
+p_20=[1278.0,152.75]
+p_21=[1278.0,152.75]
+p_22=[995.5,45.25]
+cam_3=[p_17,p_18,p_19,p_20,p_21,p_22]
+p_23=[340.5,290.25]
+p_24=[329.25,715.25]
+p_25=[1275.5,714.0]
+p_26=[1274.25,284.0]
+p_27=[974.25,154.0]
+p_28=[700.5,121.5]
+cam_5=[p_23,p_24,p_25,p_26,p_27,p_28]
 
 def space_time_diagram():
     # Reading Trajectories from txt file
     header_list = ['frm','id','l','t','w','h','1','2','3','4','5']
     #path="trajectories_txt/"
-    #path="Results/trajectories_pedestrian/"
-    path="Results/trajectories_vehicle/"
+    path="Results/trajectories_pedestrian/"
+    #path="Results/trajectories_vehicle/"
     names=os.listdir(path)
     img=cv2.imread('./tools/Cal_PnP/pic/frm.jpg')[..., ::-1]
     for vid_name in names:
@@ -69,8 +83,8 @@ def space_time_diagram():
                 for h in range(len(ordered_tracks_in_area_ROI[j][:,2])):
                     tp.append('ped')
                 dfs=pd.DataFrame({"frame":ordered_tracks_in_area_ROI[j][:,2].astype(int),"id":int(j)*np.ones([len(ordered_tracks_in_area_ROI[j][:,2])]).astype(int),"x":ordered_tracks_in_area_ROI[j][:,0],"y":ordered_tracks_in_area_ROI[j][:,1],"type":tp})
-                #outdir="data/trajectories/"+"p"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
-                outdir="data/trajectories/"+"v"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
+                outdir="data/trajectories/"+"p"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
+                #outdir="data/trajectories/"+"v"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
                 if not os.path.exists(outdir):
                     os.mkdir(outdir)
                 dfs.to_csv(outdir+"p"+j+".csv",index=False)
@@ -510,6 +524,6 @@ def pedestrian_vehicle_trajectory_union():
         plt.savefig("images/"+k+"_"+k2+".png")
         plt.show()
 if __name__ == '__main__':
-    pedestrian_vehicle_trajectory_union()
-    #space_time_diagram()
+    #pedestrian_vehicle_trajectory_union()
+    space_time_diagram()
     #trayectory_processing()
