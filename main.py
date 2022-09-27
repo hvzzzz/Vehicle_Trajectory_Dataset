@@ -53,8 +53,8 @@ def space_time_diagram():
     # Reading Trajectories from txt file
     header_list = ['frm','id','l','t','w','h','1','2','3','4','5']
     #path="trajectories_txt/"
-    path="Results/trajectories_pedestrian/"
-    #path="Results/trajectories_vehicle/"
+    #path="Results/trajectories_pedestrian/"
+    path="Results/trajectories_vehicle/"
     names=os.listdir(path)
     img=cv2.imread('./tools/Cal_PnP/pic/frm.jpg')[..., ::-1]
     for vid_name in names:
@@ -83,8 +83,8 @@ def space_time_diagram():
                 for h in range(len(ordered_tracks_in_area_ROI[j][:,2])):
                     tp.append('ped')
                 dfs=pd.DataFrame({"frame":ordered_tracks_in_area_ROI[j][:,2].astype(int),"id":int(j)*np.ones([len(ordered_tracks_in_area_ROI[j][:,2])]).astype(int),"x":ordered_tracks_in_area_ROI[j][:,0],"y":ordered_tracks_in_area_ROI[j][:,1],"type":tp})
-                outdir="data/trajectories/"+"p"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
-                #outdir="data/trajectories/"+"v"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
+                #outdir="data/trajectories/"+"p"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
+                outdir="data/trajectories/"+"v"+get_num_from_name(vid_name)+"/"+vid_name[:-4]+"/"
                 if not os.path.exists(outdir):
                     os.mkdir(outdir)
                 dfs.to_csv(outdir+"p"+j+".csv",index=False)
