@@ -28,8 +28,8 @@
 
 * Setup Vehicles and Pedestrians IDs
 #+begin_src python :session traj :results silent
-  ids_p=[35,113,228,664,246,171,18,31,266,499,497,297,516,654,290,572,124,536,655,576]
-  ids_v=[65,49,85,92,113,119,9,137,122,140,161,136,158,190,182,167,1,202,214,167]
+  ids_p=[35,113,228,664,246,171,18,31,266,499,497,297,516,654,290,572,124,536,655,576,609,290,310,203,577,474,542,641,551,474,705,619,603,123]
+  ids_v=[65,49,85,92,113,119,9,137,122,140,161,136,158,190,182,167,1,202,214,167,195,206,199,143,171,177,104,178,186,185,212,202,168,39]
 
   interaction_p={}
   interaction_p['1_04 13 00']=ids_p[0]
@@ -52,6 +52,21 @@
   interaction_p['3_05:53:00']=ids_p[17]
   interaction_p['3_05:53:00']=ids_p[18]
   interaction_p['3_06:01:00']=ids_p[19]
+  interaction_p['3_06:09:00']=ids_p[20]
+  interaction_p['3_06:25:00']=ids_p[21]
+  interaction_p['3_06:33:00']=ids_p[22]
+  interaction_p['3_06:45:00']=ids_p[23]
+  interaction_p['3_06:49:00']=ids_p[24]
+  interaction_p['3_06:53:00']=ids_p[25]
+  interaction_p['3_06:57:00']=ids_p[26]
+  interaction_p['3_07:01:00']=ids_p[27]
+  interaction_p['3_07:05:00']=ids_p[28]
+  interaction_p['3_07:09:00']=ids_p[29]
+  interaction_p['3_07:25:00']=ids_p[30]
+  interaction_p['3_07:41:00']=ids_p[31]
+  interaction_p['3_07:45:00']=ids_p[32]
+  interaction_p['3_08:29:00']=ids_p[33]
+  
 
   interaction_v={}
   interaction_v['1_04_13_00']=ids_v[0]
@@ -74,6 +89,21 @@
   interaction_v['3_05:53:00']=ids_v[17]
   interaction_v['3_05:53:00']=ids_v[18]
   interaction_v['3_06:01:00']=ids_v[19]
+  interaction_v['3_06:09:00']=ids_v[20]
+  interaction_v['3_06:25:00']=ids_v[21]
+  interaction_v['3_06:33:00']=ids_v[22]
+  interaction_v['3_06:45:00']=ids_v[23]
+  interaction_v['3_06:49:00']=ids_v[24]
+  interaction_v['3_06:53:00']=ids_v[25]
+  interaction_v['3_06:57:00']=ids_v[26]
+  interaction_v['3_07:01:00']=ids_v[27]
+  interaction_v['3_07:05:00']=ids_v[28]
+  interaction_v['3_07:09:00']=ids_v[29]
+  interaction_v['3_07:25:00']=ids_v[30]
+  interaction_v['3_07:41:00']=ids_v[31]
+  interaction_v['3_07:45:00']=ids_v[32]
+  interaction_v['3_08:29:00']=ids_v[33]
+  
 #+end_src
 
 * Setup Camera List for files
