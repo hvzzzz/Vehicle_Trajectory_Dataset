@@ -1,0 +1,1 @@
+python3 train.py --img 640 --batch 8 --epochs 250 --data coco.yaml --weights yolov5s.pt --cache

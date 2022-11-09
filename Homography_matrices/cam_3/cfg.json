@@ -1,0 +1,57 @@
+
+  // general information
+  "genInfo": {
+    // path of input video frame
+    "inFrmPth": "./data/frm.jpg",
+    // path of output text file of camera matrix
+    "outCamMatPth": "./data/calibration.txt",
+    // path of output display image of camera calibration, necessary when outCalDispFlg = 1
+    "outCalDispPth": "./data/calibration.jpg",
+    // flag of output display image of camera calibration
+    "outCalDispFlg": 1,
+    // resized video frame height (negative: original size)
+    "rszFrmHei": -1
+  },
+  // camera calibration
+  "camCal": {
+    // flag of selecting 2D points on the frame image
+    "calSel2dPtFlg": 0,
+    // input sequence of 2D points on the ground plane, necessary when calSel2dPtFlg = 0
+    "cal2dPtLs": [
+        [675.8169934640523,292.156862745098],
+        [776.3440860215053,283.02150537634407],
+        [94.11764705882354,350.2352941176471],
+        [675.2941176470589,224.3529411764706],
+        [780.0,232.58823529411768],
+        [271.7647058823529,229.05882352941177],
+        [1209.6774193548385,230.33333333333331],
+        [4.493150684931507,310.28767123287673
+]
+    ],
+    // input sequence of 3D points on the ground plane
+    "cal3dPtLs": [
+        [-13.521695279819117,-71.96484947560711],
+        [-13.521713265852366,-71.96485456335567],
+        [-13.52160177973272,-71.9648478578335],
+        [-13.521704138335764,-71.96481164801378],
+        [-13.521723045334067,-71.96481969464038],
+        [-13.521623372709998,-71.96478924535793],
+        [-13.521807226968003,-71.96484490119195],
+        [-13.521582298866464,-71.96482545517365]
+    ],
+    // method used to computed the camera matrix: 0 - a regular method using all the points; 4 - Least-Median robust method; 8 - RANSAC-based robust method; -1 - Optimum method with minimum reprojection error
+    "calTyp": -1,
+    // maximum allowed reprojection error to treat a point pair as an inlier, necessary when calTyp = 8
+    "calRansacReprojThld": 100.0,
+    // dimension of the grid on the ground plane to display
+    "calDispGrdDim": [ 10, 10 ],
+    // flag of camera undistortion (if 1, require initial intrinsic camera parameters)
+    "calDistFlg": 0,
+    // input distortion coefficients, necessary when calDistFlg = 1
+    "calDistCoeff": [ 0.0, 0.0, 0.0, 0.0 ],
+    // focal length(s) of the camera intrinsic matrix, necessary when calDistFlg = 1
+    "calFocLen": [ -1 ],
+    // principal point of the camera intrinsic matrix, necessary when calDistFlg = 1
+    "calPrinPt": [ -1, -1 ]
+  }
+}

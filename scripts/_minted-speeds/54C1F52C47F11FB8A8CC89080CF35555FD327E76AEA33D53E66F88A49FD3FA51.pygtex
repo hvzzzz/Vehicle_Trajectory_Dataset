@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{path\PYGZus{}res\PYGZus{}ped}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}../Results/1\PYGZus{}04 13 00\PYGZus{}ped.csv\PYGZdq{}}
+\PYG{n}{path\PYGZus{}res\PYGZus{}veh}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}../Results/1\PYGZus{}04\PYGZus{}13\PYGZus{}00\PYGZus{}veh.csv\PYGZdq{}}
+\PYG{n}{traj\PYGZus{}ped}\PYG{o}{=}\PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{n}{path\PYGZus{}res\PYGZus{}ped}\PYG{p}{,}\PYG{n}{sep}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{traj\PYGZus{}veh}\PYG{o}{=}\PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{n}{path\PYGZus{}res\PYGZus{}veh}\PYG{p}{,}\PYG{n}{sep}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}latitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{5}\PYG{p}{])}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}longitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{5}\PYG{p}{])}
+\PYG{n+nb}{print}\PYG{p}{([}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}latitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{o}{.}\PYG{n}{to\PYGZus{}numpy}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}float\PYGZsq{}}\PYG{p}{),}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}longitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{o}{.}\PYG{n}{to\PYGZus{}numpy}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}float\PYGZsq{}}\PYG{p}{)])}
+\PYG{n+nb}{print}\PYG{p}{([}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}latitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{],}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}longitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]])}
+\PYG{n}{dist\PYGZus{}0}\PYG{o}{=}\PYG{n}{geodesic}\PYG{p}{([}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}latitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{],}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}longitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]],[}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}latitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{],}\PYG{n}{traj\PYGZus{}ped}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}longitude\PYGZsq{}}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]])}
+\end{Verbatim}

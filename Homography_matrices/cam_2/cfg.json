@@ -1,0 +1,62 @@
+{
+  // general information
+  "genInfo": {
+    // path of input video frame
+    "inFrmPth": "./data/frm.jpg",
+    // path of output text file of camera matrix
+    "outCamMatPth": "./data/calibration.txt",
+    // path of output display image of camera calibration, necessary when outCalDispFlg = 1
+    "outCalDispPth": "./data/calibration.jpg",
+    // flag of output display image of camera calibration
+    "outCalDispFlg": 1,
+    // resized video frame height (negative: original size)
+    "rszFrmHei": -1
+  },
+  // camera calibration
+  "camCal": {
+    // flag of selecting 2D points on the frame image
+    "calSel2dPtFlg": 0,
+    // input sequence of 2D points on the ground plane, necessary when calSel2dPtFlg = 0
+    "cal2dPtLs": [
+        [1263.0731707317073,570.4634146341463],
+        [1232.5853658536585,461.92682926829264],
+        [688.6829268292682,537.5365853658536],
+        [748.4390243902438,419.24390243902434],
+        [504.5365853658536,474.1219512195122],
+        [489.9024390243902,776.560975609756],
+        [239.90243902439022,774.1219512195121],
+        [588.6829268292682,604.6097560975609],
+        [396.66037735849056,596.5471698113207],
+        [1855.7560975609754,593.6341463414634],
+        [1772.8292682926829,499.7317073170731]
+    ],
+    // input sequence of 3D points on the ground plane
+    "cal3dPtLs": [
+        [-13.52283445621426, -71.96117102690378],
+        [-13.52285271113921, -71.96111872379119],
+        [-13.522751656951057, -71.96114353430342],
+        [-13.522767955976933, -71.96108921954809],
+        [-13.522728186273383, -71.96111067725576],
+        [-13.522724274554804, -71.96120991898565], 
+        [-13.522699499974397, -71.96120388402396],
+        [-13.522737313786791, -71.96116499198348],
+        [-13.522713191166641, -71.96115828647359],
+        [-13.522940726136683, -71.96120589558674],
+        [-13.52295832911417, -71.9611556041124]        
+    ],
+    // method used to computed the camera matrix: 0 - a regular method using all the points; 4 - Least-Median robust method; 8 - RANSAC-based robust method; -1 - Optimum method with minimum reprojection error
+    "calTyp": -1,
+    // maximum allowed reprojection error to treat a point pair as an inlier, necessary when calTyp = 8
+    "calRansacReprojThld": 100.0,
+    // dimension of the grid on the ground plane to display
+    "calDispGrdDim": [ 10, 10 ],
+    // flag of camera undistortion (if 1, require initial intrinsic camera parameters)
+    "calDistFlg": 0,
+    // input distortion coefficients, necessary when calDistFlg = 1
+    "calDistCoeff": [ 0.0, 0.0, 0.0, 0.0 ],
+    // focal length(s) of the camera intrinsic matrix, necessary when calDistFlg = 1
+    "calFocLen": [ -1 ],
+    // principal point of the camera intrinsic matrix, necessary when calDistFlg = 1
+    "calPrinPt": [ -1, -1 ]
+  }
+}
