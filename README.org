@@ -3,4 +3,5 @@
 #+DATE: 2022
 #+options: toc:nil
 
-We introduce /I see you/ a dataset for pedestrian trajectory prediction, autonomous driving
+We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian trajectory prediction in near-miss situations, autonomous driving safety analysis, pedestrian safety hazard evaluation.
+

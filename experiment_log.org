@@ -1,8 +1,7 @@
-#+TITLE: Pedestrian-Vehicle Interaction in Near Accident Scenarios
+#+TITLE: Experiment Log
 #+AUTHOR: Hanan Quispe
 #+DATE: 2022
 #+options: toc:nil
-* Experiment Log
 ** Extracting Trajectories from Video
 
 We started selecting a region of interest(ROI) in which we will process and extract the trajectories.
