@@ -12,7 +12,7 @@
 #+end_src
 
 * Plot Histogram
-#+begin_src python :session speed :results file
+#+begin_src python :session speed :results file exports:both
   path_res_ped="../Results/1_06_37_00_ped.csv"
   path_res_veh="../Results/1_06_37_00_veh.csv"
   traj_ped=pd.read_csv(path_res_ped,sep=",")
