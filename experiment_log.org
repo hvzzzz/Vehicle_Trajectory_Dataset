@@ -1,0 +1,194 @@
+#+TITLE: Pedestrian-Vehicle Interaction in Near Accident Scenarios
+#+AUTHOR: Hanan Quispe
+#+DATE: 2022
+#+options: toc:nil
+* Experiment Log
+** Extracting Trajectories from Video
+
+We started selecting a region of interest(ROI) in which we will process and extract the trajectories.
+#+ATTR_ORG: :width 400
+#+caption: Trajectories in ROI
+#+label: fig:traj_in_roi
+#+attr_latex: :width 12cm :options angle=0
+[[./images/trajectories_in_ROI.png]]
+
+We can see that the trajectories are a quite bit noisy so we are going to use a kalman filter with a linear point mass model, after processing the trajectories with the kalman filter we get the following image.
+
+#+ATTR_ORG: :width 400
+#+caption: Filtered Trajectories in ROI
+#+label: fig:fil_traj_in_roi
+#+attr_latex: :width 12cm :options angle=0
+[[./images/kalman_trajectories.png]]
+** Trajectory Processing
+We are going to try different methods of clustering to group the trajectories and select the group with the interactions between pedestrians and vehicles.
+*** KMeans
+We are going to use a clustering method Kmeans to group the different trajectories and select the groups of interest.
+**** Using x and y variables
+To select the number of clusters we will use the method described [[https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html#sphx-glr-auto-examples-cluster-plot-kmeans-silhouette-analysis-py][here]].
+Trying with various numbers of clusters we get.
+
+#+begin_src bash
+> python3 tools/silhouette.py
+For n_clusters = 2 The average silhouette_score is : 0.5358767901661167
+For n_clusters = 3 The average silhouette_score is : 0.5687757453635114
+For n_clusters = 4 The average silhouette_score is : 0.5338773003501883
+For n_clusters = 5 The average silhouette_score is : 0.5586381641102413
+For n_clusters = 6 The average silhouette_score is : 0.5540750167250504
+> python3 tools/silhouette.py
+For n_clusters = 7 The average silhouette_score is : 0.5822698391894428
+For n_clusters = 8 The average silhouette_score is : 0.5769440266342957
+For n_clusters = 9 The average silhouette_score is : 0.5667298885969102
+For n_clusters = 15 The average silhouette_score is : 0.6047338819760953
+For n_clusters = 30 The average silhouette_score is : 0.5829601192972251
+> python3 tools/silhouette.py
+For n_clusters = 10 The average silhouette_score is : 0.578052461342305
+For n_clusters = 11 The average silhouette_score is : 0.5874489426928768
+For n_clusters = 12 The average silhouette_score is : 0.5813632704181257
+For n_clusters = 13 The average silhouette_score is : 0.592575430248747
+For n_clusters = 14 The average silhouette_score is : 0.5920042817135786
+For n_clusters = 100 The average silhouette_score is : 0.5943276696604427
+> python3 tools/silhouette.py
+For n_clusters = 16 The average silhouette_score is : 0.5987347608786262
+For n_clusters = 17 The average silhouette_score is : 0.6090003284355272
+For n_clusters = 18 The average silhouette_score is : 0.597291671022866
+For n_clusters = 19 The average silhouette_score is : 0.5985433042076013
+For n_clusters = 20 The average silhouette_score is : 0.589507844442639
+For n_clusters = 50 The average silhouette_score is : 0.6011900269631338
+#+end_src
+
+Using [[./tools/silhouette.py]] We can see that the highest silhouette score corresponds to 17 clusters.
+#+ATTR_ORG: :width 800
+#+caption: Silhouette Analysis for 17 clusters
+#+label: fig:17_clusters
+#+attr_latex: :width 12cm :options angle=0
+[[./images/cluster_17.png]]
+
+In picture [[fig:17_clusters]] we can see the clustered data.
+
+**** Using x, y and frame Variables
+If we add frame as a third variable we get the following
+
+#+begin_src bash
+> python3 tools/silhouette.py
+For n_clusters = 2 The average silhouette_score is : 0.6132029701257091
+For n_clusters = 3 The average silhouette_score is : 0.552350219363859
+For n_clusters = 4 The average silhouette_score is : 0.4876816837974802
+For n_clusters = 5 The average silhouette_score is : 0.436522361584541
+#+end_src
+
+From the silhouette analysis we get that the optimum number of clusters is 2, also we can do an elbow analysis
+#+ATTR_ORG: :width 400
+#+caption: Elbow Analysis
+#+label: fig:elbow3d
+#+attr_latex: :width 12cm :options angle=0
+[[./images/elbow3d.png]]
+
+In the elbow analysis we can see that the optimum number of clusters is 2, the same result as the silhouette analysis
+
+Additionally we can see the clustered data.
+#+ATTR_ORG: :width 800
+#+caption: Silhouette Analysis for 2 clusters
+#+label: fig:silhouette_2
+#+attr_latex: :width 12cm :options angle=0
+[[./images/cluster_2.png]]
+
+In 3d we have.
+#+ATTR_ORG: :width 800
+#+caption: KMeans with 2 Clusters
+#+label: fig:silhouette_2
+#+attr_latex: :width 12cm :options angle=0
+[[./images/3d_clusters.png]]
+
+*** DBscan
+This clustering method groups the data according to the density of the data, using the following parameters we get.
+#+begin_src bash
+db = DBSCAN(eps=30, min_samples=10).fit(X)
+#+end_src
+#+ATTR_ORG: :width 800
+#+caption: DBscan with 2 Clusters
+#+label: fig:eps_30
+#+attr_latex: :width 12cm :options angle=0
+[[./images/dbscan_eps_30.png]]
+
+In the previous figure we can see that there are two clusters, the red one contains all the trajectories that belong to vehicles and the second one (in yellow) corresponds to noise. Let's try this configuration with trajectories from another cameras. #+ATTR_ORG: :width 800
+#+caption: DBscan with 1 Cluster
+#+label: fig:cam_2
+#+attr_latex: :width 12cm :options angle=0
+[[./images/dbscan_camera_2.png]]
+#+ATTR_ORG: :width 800
+#+caption: DBscan with 3 Clusters
+#+label: fig:cam_13
+#+attr_latex: :width 12cm :options angle=0
+[[./images/dbscan_camera_13.png]]
+
+*** Choice of Number of Video Clips to Process
+*** Camera 15
+With the given configuration in the image of the camera 2, we can see that there is only one cluster so, we can infer that there were no detection errors, on the other hand in the trajectories from the camera 13, we can see that there are 3 clusters, in this situation the first assumption that there will be two clusters need to be updated with more type of error or in the worst case scenario deny the first assumption.
+There is too much data so we are going to limit the hours in which we will process the videos
+#+ATTR_ORG: :width 800
+#+caption: Number of Pedestrians at Various Hours
+#+label: fig:pedes
+#+attr_latex: :width 12cm :options angle=0
+[[./images/number_pedestrian.png]]
+
+The chosen hours for diagonal_subida(15) are from 9:42AM to 2:46PM and from 3:46PM to 7:06PM almost 125 videos to process, still too much
+#+ATTR_ORG: :width 800
+#+caption: Number of Pedestrians at Various Hours
+#+label: fig:pedes_1
+#+attr_latex: :width 12cm :options angle=0
+k[[./images/number_pedestrian_1.png]]
+
+The chosen hours for diagonal_subida are from 11:46AM to 2:06PM and from 4:42PM to 7:06PM almost 71 videos to process, this quantity is fine.
+
+|--------+-------------------+------------------------+-------------------|
+| Camera | Intervals         | Number of Videos       | Vehicle Detection |
+|--------+-------------------+------------------------+-------------------|
+|     16 | [63,118][163,178] | 118-63+209-163-2=68    | Processed         |
+|     15 | [88,123][162,198] | 123-88+198-162=71-2=69 | Processed         |
+|     14 | [74,118]          | 118-74-2=42            | Processed         |
+|     13 | [53,117]          | 117-53-2=62            | Processed         |
+|     12 | [69,91][167,220]  | 135-69+220-167-2=73    | Processed         |
+|     11 | [61,75][99,136]   | 75-61+136-99-2=49      | Processed         |
+|     10 | [117,146]         | 146-117-2=27           | Processed         |
+|      9 | [74,77][121,139]  | 77-74+139-121-2=19     | Processed         |
+|      8 | [81,146]          | 146-81-2=63            | Processed         |
+|      7 | [71,141]          | 141-71-2=68            | Processed         |
+|      6 | [62,85][109,146]  | 85-62+146-109-2=58     | Processed         |
+|      5 | [68,100]          | 100-68-2=30            | Processed         |
+|      4 | [122,186]         | 186-122-2=62           | Processed         |
+|      3 | [64,129]          | 129-64-2=63            | Processed         |
+|      2 | [93,120][162,184] | 120-93+184-162-2=47    | Processed         |
+|      1 | [65,125]          | 125-65-2=58            | Processed         |
+|--------+-------------------+------------------------+-------------------|
+
+** Pedestrian Trajectories and Vehicle Trajectories Merge
+Once processed the vehicle and pedestrian trajectories we proceded to label the trajectories in order to find the interactions.
+
+#+begin_src bash :results output
+  python3 main.py
+#+end_src
+
+#+RESULTS:
+#+begin_example
+Processing Vehicles 1_06_37_00_traj_ped_filtered.csv
+Processing Vehicles 1_07_49_00_traj_ped_filtered.csv
+Processing Vehicles 1_07_25_00_traj_ped_filtered.csv
+Processing Vehicles 1_06_13_00_traj_ped_filtered.csv
+Processing Vehicles 1_04_13_00_traj_ped_filtered.csv
+Processing Vehicles 1_07_01_00_traj_ped_filtered.csv
+Processing Pedestrians 1_07 49 00_traj_ped_filtered.csv
+Processing Pedestrians 1_04 13 00_traj_ped_filtered.csv
+Processing Pedestrians 1_07 01 00_traj_ped_filtered.csv
+Processing Pedestrians 1_07 25 00_traj_ped_filtered.csv
+Processing Pedestrians 1_06 13 00_traj_ped_filtered.csv
+Processing Pedestrians 1_06 37 00_traj_ped_filtered.csv
+#+end_example
+
+#+ATTR_ORG: :width 800
+[[./images/1_06_37_00_1_06 37 00.png]]
+
+#+ATTR_ORG: :width 800
+[[./images/1_07_01_00_1_07 01 00.png]]
+
+#+ATTR_ORG: :width 800
+[[./images/1_07_49_00_1_07 49 00.png]]
