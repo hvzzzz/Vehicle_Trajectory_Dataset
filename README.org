@@ -27,4 +27,8 @@ You can visualize each interaction trajectories using [[https://support.google.c
 
 Bellow are the speed distributions for our dataset as well as number of interactions by type of interaction(refer to our paper for more information).
 
-[[./images/stat.eps]]
+[[./images/stat.png]]
+
+| Scenario      | Number of Ocurrences |
+| Dangerous     |                   91 |
+| Non-Dangerous |                   79 |
