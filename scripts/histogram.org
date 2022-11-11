@@ -2,7 +2,7 @@
 #+AUTHOR: Hanan Quispe
 #+DATE: 2022
 #+options: toc:nil
-#+property: header-args :tangle /home/han4n/Vehicle_Trayectory_Dataset/scripts/histogram.py
+#+property: header-args :tangle ./histogram.py
 
 * Import Libraries
 #+begin_src python :session speed :results silent
@@ -50,7 +50,6 @@
   fname='../images/stat.png'
   plt.savefig(fname,dpi=300)
   fname
-  #print('[[file:'+fname+']]')
 #+end_src
 
 #+RESULTS:
