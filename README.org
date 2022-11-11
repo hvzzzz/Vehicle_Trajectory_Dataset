@@ -6,4 +6,5 @@
 We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian trajectory prediction in near-miss situations, autonomous driving safety analysis, pedestrian safety hazard evaluation.
 
 We collected vehicle and pedestrian trajectories in near-accident scenarios from surveillance cameras at signalized intersections.
+
 [[./images/dangerous.pdf]]
