@@ -21,6 +21,6 @@ The trajectories are provided in the following format
 
 Pedestrian trajectories can be found [[./Results/1_06_37_00_ped.csv][here]] and vehicle trajectories [[./Results/1_06_37_00_veh.csv][here]]. Time is expressed as frame(FPS=30).
 
-You can visualize each interaction trajectories using [[https://support.google.com/mymaps/answer/3024836?hl=en&ref_topic=3024924#zippy=%2Cstep-import-info-into-the-map][google maps]]. Individual GPS trajectories can be found [[./Results/trajectories_gps/][here]] (/_ped/ files correspond to pedestrian trajectories and /_veh/ correspond to vehicle trajectories)
+You can visualize each interaction trajectories using [[https://support.google.com/mymaps/answer/3024836?hl=en&ref_topic=3024924#zippy=%2Cstep-import-info-into-the-map][google maps]]. Individual GPS trajectories can be found [[./Results/trajectories_gps/][here]] (/_ped/ files correspond to pedestrian trajectories and /_veh/ correspond to vehicle trajectories, /_ped/ and /_veh/ files that belong to the same interaction have the same clip name /clip_name_veh,clip_name_ped/)
 
 [[./images/GPS_map.png]]
