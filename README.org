@@ -7,4 +7,4 @@ We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian 
 
 We collected vehicle and pedestrian trajectories in near-accident scenarios from surveillance cameras at signalized intersections.
 
-[[./images/dangerous.pdf]]
+[[./images/dangerous.png]]
