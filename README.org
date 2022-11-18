@@ -11,10 +11,10 @@ We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian 
 
 We collected vehicle and pedestrian trajectories in near-accident scenarios from surveillance cameras at signalized intersections.
 
-** Dangerous Interaction
+*** Dangerous Interaction
 [[./images/muy_peligroso.gif]]
 
-** Non-Dangerous Interaction
+*** Non-Dangerous Interaction
 [[./images/no_peligroso.gif]]
 
 For each interaction we provide:
