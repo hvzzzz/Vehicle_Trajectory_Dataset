@@ -4,7 +4,7 @@
 #+options: toc:nil
 
 #+begin_html
-<a href="https://github.com/hvzzzz/Vehicle_Trajectory_Dataset"><img src="https://img.shields.io/badge/arXiv-2211.09342-blue"></a>
+<a href="https://arxiv.org/abs/2211.09342"><img src="https://img.shields.io/badge/arXiv-2211.09342-blue"></a>
 #+end_html
 
 We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian trajectory prediction in near-miss situations, autonomous driving safety analysis, pedestrian safety hazard evaluation.
