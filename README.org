@@ -2,8 +2,8 @@
 #+AUTHOR: Hanan Quispe
 #+DATE: 2022
 #+options: toc:nil
-[[https://arxiv.org/abs/2211.09342][https://img.shields.io/badge/arXiv-2211.09342-blue
-]]
+[![https://arxiv.org/abs/2010.05435](https://img.shields.io/badge/arXiv-2010.05435-blue)](https://arxiv.org/abs/2010.05435)
+
 We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian trajectory prediction in near-miss situations, autonomous driving safety analysis, pedestrian safety hazard evaluation.
 
 We collected vehicle and pedestrian trajectories in near-accident scenarios from surveillance cameras at signalized intersections.
