@@ -38,7 +38,7 @@ Bellow are the speed distributions for our dataset as well as number of interact
 [[./images/stat.png]]
 
 | Scenario      | Number of Occurrences |
-| Dangerous     |                   91 |
-| Non-Dangerous |                   79 |
+| Dangerous     |                    91 |
+| Non-Dangerous |                    79 |
 
 Video clips can be found at [[https://drive.google.com/drive/folders/1AznRPUzFyY58Gtuz6DDE5WVMTEA7MfGQ?usp=sharing][google drive]].
