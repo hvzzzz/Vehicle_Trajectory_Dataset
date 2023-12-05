@@ -7,7 +7,20 @@
 <a href="https://arxiv.org/abs/2211.09342"><img src="https://img.shields.io/badge/arXiv-2211.09342-blue"></a>
 #+end_html
 
-We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian trajectory prediction in near-miss situations, autonomous driving safety analysis, pedestrian safety hazard evaluation.
+We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian trajectory prediction in near-miss situations, autonomous driving safety analysis, and pedestrian safety hazard evaluation. please cite if it is useful in your research.
+
+#+begin_src sh
+@inproceedings{quispe_i_2022,
+	title = {I see you: {A} {Vehicle}-{Pedestrian} {Interaction} {Dataset} from {Traffic} {Surveillance} {Cameras}},
+	url = {https://research.latinxinai.org/papers/neurips/2022/pdf/19_CameraReady.pdf},
+	doi = {10.52591/lxai2022112811},
+	language = {en},
+	booktitle = {{LatinX} in {AI} at {Neural} {Information} {Processing} {Systems} {Conference} 2022},
+	publisher = {Journal of LatinX in AI Research},
+	author = {Quispe, Hanan and Sumire, Jorshinno and Condori, Patricia and Alvarez, Edwin and Vera, Harley},
+	year = {2022},
+	}
+#+end_src
 
 We collected vehicle and pedestrian trajectories in near-accident scenarios from surveillance cameras at signalized intersections.
 
