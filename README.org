@@ -7,7 +7,7 @@
 <a href="https://arxiv.org/abs/2211.09342"><img src="https://img.shields.io/badge/arXiv-2211.09342-blue"></a>
 #+end_html
 
-We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian trajectory prediction in near-miss situations, autonomous driving safety analysis, and pedestrian safety hazard evaluation. please cite if it is useful in your research.
+We introduce /I see you/ a vehicle-pedestrian trajectory dataset for pedestrian trajectory prediction in near-miss situations, autonomous driving safety analysis, and pedestrian safety hazard evaluation. Please cite if it is useful in your research.
 
 #+begin_src sh
 @inproceedings{quispe_i_2022,
