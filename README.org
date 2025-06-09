@@ -34,7 +34,6 @@ For each interaction we provide:
 + Processed vehicle and pedestrian trajectories in GPS coordinates.
 + Vehicle-pedestrian ids
 + Frame
-+ Video clip
 
 The trajectories are provided in the following format
 
@@ -42,7 +41,7 @@ The trajectories are provided in the following format
 
 Pedestrian trajectories can be found [[./Results/1_06_37_00_ped.csv][here]] and vehicle trajectories [[./Results/1_06_37_00_veh.csv][here]]. Time is expressed as frame(FPS=30).
 
-You can visualize each interaction trajectories using [[https://support.google.com/mymaps/answer/3024836?hl=en&ref_topic=3024924#zippy=%2Cstep-import-info-into-the-map][google maps]]. Individual GPS trajectories can be found [[./Results/trajectories_gps/][here]] (/_ped/ files correspond to pedestrian trajectories and /_veh/ correspond to vehicle trajectories, /_ped/ and /_veh/ files that belong to the same interaction have the same clip name /clip_name_veh,clip_name_ped/)
+You can visualize each interaction trajectories using [[https://support.google.com/mymaps/answer/3024836?hl=en&ref_topic=3024924#zippy=%2Cstep-import-info-into-the-map][Google Maps]]. The individual GPS trajectory files are available [[./Results/trajectories_gps/][here]]. Files with /_ped/ in their names correspond to pedestrian trajectories, while those with /_veh/ correspond to vehicle trajectories.
 
 [[./images/GPS_map.png]]
 
@@ -53,5 +52,3 @@ Bellow are the speed distributions for our dataset as well as number of interact
 | Scenario      | Number of Occurrences |
 | Dangerous     |                    91 |
 | Non-Dangerous |                    79 |
-
-Video clips can be found at [[https://drive.google.com/drive/folders/1UQKstqIpPMd9GshN7pEs9yFSFXN5Rwt_?usp=sharing][google drive]].
